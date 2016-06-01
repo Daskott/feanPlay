@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var api = require('../../support/api' );
+var user = require('../../support/users');
 var Post = require('../../../../models/posts');
 var Users = require('../../../../models/users');
 
@@ -24,6 +25,35 @@ describe('controllers.api.posts', function () {
 			.expect(function (response) {
 				expect(response.body).to.have.length(3)
 			}).end(done)
+		})
+	})
+})
+
+describe('POST /api/posts', function () {
+	var token;
+	beforeEach(function (done) {
+		user.create('dickeyxxx', 'pass', function (err, user) {
+			token = user.token;
+			done(err);
+		})
+	})
+
+	beforeEach(function (done) {
+		Post.remove({}, done);
+	});
+	
+	beforeEach(function (done) {
+		api.post('/api/posts')
+		.send({body: 'this is my new post'})
+		.set('X-Auth', token)
+		.expect(201)
+		.end(done)
+	})
+
+	it('added 1 new post', function (done) {
+		Post.findOne(function (err, post) {
+			expect(post.body).to.equal('this is my new post');
+			done(err);
 		})
 	})
 })
