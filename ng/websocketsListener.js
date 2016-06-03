@@ -1,5 +1,5 @@
 var app = angular.module('app');
-var addr = '10.151.97.62';// 'localhost'
+var addr = 'localhost';//'10.151.97.62'
 app.run(function ($rootScope, $timeout) {
 	(function connect() {
 		var url = 'ws://'+addr+':5000';

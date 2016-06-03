@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A LAN chatting application">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jabber</title>
+
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="/app.css">
   </head>
 
-  <body ng-app='app' ng-controller='ApplicationCtrl'>
+  <body ng-app='app' ng-controller='ApplicationCtrl' layout-xs="column">
 
     <!-- Angular Material requires Angular.js Libraries -->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
@@ -16,14 +23,34 @@
 
     <!-- Angular Material Library -->
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
-  
+
     <!-- Main script -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
     <script src='/app.js'></script>
 
+
+    <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <h2>
+          <span>Jabber</span>
+        </h2>
+        <span flex></span>
+         <!-- Nav menu -->
+         <md-menu-bar class='container'>
+          <ul class="nav navbar-nav">
+            <md-button class="md-accent" ng-href="/#/">Posts</md-button>
+            <md-button class="md-accent" ng-href="/#/register">Register</md-button>
+            <md-button class="md-accent" ng-href="/#/login">Login</md-button>
+          </ul>
+          <!-- <p ng-if='currentUser' class="navbar-text navbar-right"> Signed in as {{currentUser.username}} </p> -->
+        </md-menu-bar>
+
+      </div>
+    </md-toolbar>
+
     <!-- navigation bar -->
-    <nav class='navbar navbar-default'>
+    <!-- <nav class='navbar navbar-default'>
       <div class='container'>
         <ul class="nav navbar-nav">
           <li><a href="/#/">Posts</a></li>
@@ -32,7 +59,7 @@
         </ul>
         <p ng-if='currentUser' class="navbar-text navbar-right"> Signed in as {{currentUser.username}} </p>
       </div>
-    </nav>
+    </nav> -->
 
     <!-- section that gets replaced by templates -->
     <div ng-view></div>
