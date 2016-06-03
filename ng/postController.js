@@ -6,7 +6,7 @@ var app = angular.module('app');
 app.controller('PostsCtrl', function ($scope, PostsService) {
 
   //get posts
-  PostsService.fetch().success(function (posts) {
+  PostsService.fetch().success(function (posts) { //then[when testing]
     $scope.posts = posts;
   });
 
