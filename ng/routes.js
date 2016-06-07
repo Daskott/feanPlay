@@ -18,10 +18,10 @@
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
     function run($rootScope, $location, $cookieStore, $http) {
+        
         // keep user logged in after page refresh
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {
-            console.log("hello");
             $http.defaults.headers.common['x-auth'] = $rootScope.globals.currentUser.authdata; // jshint ignore:line
         }
 

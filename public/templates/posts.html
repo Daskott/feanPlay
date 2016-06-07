@@ -5,10 +5,12 @@
     <textarea placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control'>
       </textarea>
     <input type="submit" class="btn btn-success post-button" class='btn btn-default' value="Post"></input>
+
+     <input ng-click="google()" class="btn btn-success post-button" class='btn btn-default' value="SignIn"></input>
   </form>
 
   <ul class='list-group'>
-    <li class='list-group-item' ng-repeat='post in posts'>
+    <li class='list-group-item' ng-repeat='post in posts | orderBy:"date":true'>
       <strong class="md-title handle">@{{post.username}}</strong>
       <p></p>
       <p class="md-subhead">{{post.body}}</p>

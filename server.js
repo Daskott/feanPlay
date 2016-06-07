@@ -31,4 +31,4 @@ var server = app.listen(port, function () {
 	console.log('Server', process.pid, 'listening on', port) 
 }); 
 
-websockets.connect(server);
+//websockets.connect(server);
