@@ -1,13 +1,22 @@
-<div class="container">
-  <form ng-submit="register(username, password)">
+<div class="card container register-pane">
+  <!-- <div ng-show="invalidForm" class="alert alert-danger" role="alert">
+    <strong>Oh snap!</strong> Your form is incomplete :(
+  </div> -->
+  <form data-toggle="validator" ng-submit="register(username, email, password)" class="card-block">
+    <h4 class="card-title" id="register-title">Register</h4>
      <div class="form-group">
-       <label>Username</label>
-       <input class="form-control" type="text" ng-model="username">
+       <input placeholder="Username" class="form-control" type="text" ng-model="username" required>
+         <div class="help-block with-errors"></div>
      </div>
      <div class="form-group">
-       <label>Password</label>
-       <input class="form-control" type="password" ng-model="password">
+       <input placeholder="Email" class="form-control" type="email" ng-model="email" required>
+       <div class="help-block with-errors"></div>
      </div>
-     <input class="btn btn-success btn-lg btn-block" type="submit" value="Register">
+     <div class="form-group">
+       <input placeholder="Password" class="form-control" type="password" ng-model="password" required>
+       <div class="help-block with-errors"></div>
+     </div>
+     <input class="btn btn-success btn-lg btn-block"type="submit" value="Register">
    </form>
 </div>
+<!-- ng-class="invalidForm ? 'disabled' : ''"  -->

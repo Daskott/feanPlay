@@ -21,11 +21,11 @@ app.controller('PostsCtrl', function ($scope, PostsService) {
     }
   }
 
-  $scope.$on('ws:new_post', function (_, post) { 
+  $scope.$on('ws:new_post', function (_, post) {
       console.log('GOT IT');
-      $scope.$apply(function () { 
-        $scope.posts.unshift(post) 
-      }); 
+      $scope.$apply(function () {
+        $scope.posts.unshift(post)
+      });
   });
 
 });

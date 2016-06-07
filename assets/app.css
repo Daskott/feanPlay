@@ -1,9 +1,84 @@
+/********************************
+* All Pages
+********************************/
 h1 {
-  color: #008000;
-}
-.handle {
   color: #008000;
 }
 .marginTop {
   margin: 10px;
+}
+.brand-name {
+  color: #008000;
+}
+body {
+  background-color: #eee;
+}
+/********************************
+* Post Page
+********************************/
+.home-item {
+  color: #000;
+}
+.handle {
+  color: #008000;
+}
+.post-container {
+  margin: auto;
+  max-width: 700px;
+  min-width: 300px;
+}
+.post-panel {
+  padding: 16px;
+  background-color: #e0e0e0;
+}
+.post-button {
+  margin-top: 8px;
+}
+p {
+  word-break: break-all;
+}
+/********************************
+* Login Page
+*********************************/
+#register-title,
+#login-title {
+  color: #616161;
+  margin-bottom: 16px;
+}
+.register-pane,
+.login-pane {
+  padding: 20px 30px;
+  background: #fff;
+  border-radius: 2%;
+  margin: auto;
+  max-width: 400px;
+  min-width: 300px;
+  box-shadow: 0 -1px 0 #b6b6b6 inset;
+}
+.signup-pane {
+  margin-top: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.signup-link {
+  color: #008000;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+/*background: rgba(255,255,255,0.1);*/
+  font-family: 'Roboto Slab', serif;
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 12px;
+  width: 100%;
+  background-color: #ececec;
+  color: #8a97a0;
+  border-radius: 5px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 30px;
 }

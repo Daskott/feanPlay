@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
 
 
 router.post('/', function (req, res, next) {
-  var user = new User({username: req.body.username});
+  var user = new User({username: req.body.username, email: req.body.email});
   console.log('call create');
   bcrypt.hash(req.body.password, 10, function (err, hash){
     user.password = hash;

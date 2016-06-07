@@ -1,13 +1,21 @@
-<div class="container">
-  <form ng-submit="login(username, password)">
+<div class="card container login-pane">
+  <div ng-show="invalidLogin" class="alert alert-danger" role="alert">
+    <strong>Oh snap!</strong> Your Username or Password incorrect :(
+  </div>
+  <form ng-submit="login(username, password)" class="card-block">
+    <h4 class="card-title" id="login-title">Sign in</h4>
      <div class="form-group">
-       <label>Username</label>
-       <input class="form-control" type="text" ng-model="username">
+       <input placeholder="Username" class="form-control input" type="text" ng-model="username">
      </div>
      <div class="form-group">
-       <label>Password</label>
-       <input class="form-control" type="password" ng-model="password">
-     </div>
+       <!-- <label>Password</label> -->
+       <input  placeholder="Password" class="form-control input" type="password" ng-model="password">
+    </div>
      <input class="btn btn-success btn-lg btn-block" type="submit" value="Login">
+     <div class="signup-pane">
+       <a class="nav-link signup-link" href="/#/register">
+         <h6 class="signup-button">Signup</h6>
+       </a>
+    </div>
    </form>
 </div>

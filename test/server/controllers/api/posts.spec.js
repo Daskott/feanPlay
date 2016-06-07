@@ -7,6 +7,7 @@ var Users = require('../../../../models/users');
 describe('controllers.api.posts', function () {
 	beforeEach(function (done) {
 		Post.remove({}, done);
+		//Users.remove({}, done);
 	});
 
 	describe('GET /api/posts', function () {
@@ -41,7 +42,7 @@ describe('POST /api/posts', function () {
 	beforeEach(function (done) {
 		Post.remove({}, done);
 	});
-	
+
 	beforeEach(function (done) {
 		api.post('/api/posts')
 		.send({body: 'this is my new post'})

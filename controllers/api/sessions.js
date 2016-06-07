@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
     if (!valid) { return res.send(401) }
     var token = jwt.encode({username: user.username}, config.secret);
     //console.log(token);
-    res.send(token)
+    res.json(token);
   });
   });
 });
