@@ -1,7 +1,6 @@
 var express = require('express');
 var Post = require('../../models/posts');
 var router = express.Router();
-var websockets = require('../../websockets');
 
 router.get('/', function (req, res, next) {
 
@@ -17,13 +16,12 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (request, response, next) {
   var post = new Post({body: request.body.body});
-  post.username = request.auth.username; 
+  post.username = request.auth.username;
   console.log('post recieved!');
   post.save(function(error, post){
     if(error)
       return next(error);
     else
-      websockets.broadcast('new_post', post);
       response.status(201).json(post); //201 - created
   });
 
