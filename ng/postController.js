@@ -10,40 +10,50 @@ FireBase Implementation
 
 **************************************************************/
 
-
-//  {
-//   "rules": {
-//     ".read": "auth != null",
-//     ".write": "auth != null"
-//   }
-// }
-
-
-  // var app = firebase.initializeApp(config);
   //var database = app.database();
   //var auth = app.auth();
   //var storage = app.storage();
 
   //get reference to our posts in the database
   var databaseRef = firebase.database().ref().child('posts');
-
+ 
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  
   //get post & update UI
   $scope.posts = $firebaseArray(databaseRef);
-
+  
   //save post to realTime db
   $scope.addPost = function () {
-    var timeStamp = new Date().getTime();
+    var date = new Date();
+    var currMonth = months[date.getMonth() + 1];
+    var timeStamp = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+date.toLocaleTimeString();
+
+    //console.log($scope.photo.text);
+    //$scope.handleFileUpload($scope.photo);
+
     if($scope.postBody){
 
         var post = {
           username: $scope.currentUser.username,
           body: $scope.postBody,
-          time: timeStamp
+          image: $scope.photo || "",
+          time: timeStamp 
         }
         databaseRef.push().set(post);
         $scope.postBody = null; //clear input field
     }
   }
+
+  // $scope.handleFileUpload = function(photo){
+  //   var storageRef = firebase.storage().ref().child('posts_photos');
+  //   var imageRef; 
+  //   console.log(photo);
+  //   if(photo){
+  //     imageRef = storageRef.child(photo);
+  //     var uploadTask = imageRef.put(photo);
+  //   } 
+
+  // }
 
   /******************************************
   * User authentication with firebase

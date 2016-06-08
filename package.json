@@ -1,6 +1,7 @@
 {
   "name": "jabber",
   "devDependencies": {
+    "angular-file-upload": "^2.3.3",
     "angularfire": "^2.0.1",
     "bcrypt": "^0.8.6",
     "blanket": "^1.2.3",
@@ -33,6 +34,7 @@
     "phantomjs": "^2.1.7",
     "phantomjs-prebuilt": "^2.1.7",
     "protractor": "^3.3.0",
+    "requirejs": "^2.2.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.2.0",
@@ -40,5 +42,5 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/jshint . && ./node_modules/.bin/mocha"
-  },
+  }
 }

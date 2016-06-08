@@ -11,8 +11,8 @@ angular.module('app')
 
   $scope.logout = function () {
     UserService.clearCredentials();
-    $scope.currentUser = null;
     $location.path('/'); //go back to sigin page
+    $scope.currentUser = null;
   }
-
+  
  });

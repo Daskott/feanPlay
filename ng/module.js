@@ -3,4 +3,5 @@ var app = angular.module('app', [
   'ngRoute',
   'ngCookies',
   'firebase'
+  // 'angularFileUpload',
 ]);
