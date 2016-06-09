@@ -18,7 +18,17 @@
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
     function run($rootScope, $location, $cookieStore, $http) {
-        
+
+
+        // //if user is no longer logged in, clear cache
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (!user) {
+            $http.defaults.headers.common['x-auth'] = null;
+            $cookieStore.remove('globals');
+          }
+        })
+
+
         // keep user logged in after page refresh
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {

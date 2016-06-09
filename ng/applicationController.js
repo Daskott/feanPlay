@@ -14,11 +14,12 @@ angular.module('app')
     $location.path('/'); //go back to sigin page
     $scope.currentUser = null;
 
-    // firebase.auth().signOut().then(function() {
-    //   // Sign-out successful.
-    // }, function(error) {
-    //   // An error happened.
-    // });
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      console.log("signed out");
+    }, function(error) {
+      // An error happened.
+    });
   }
 
  });
