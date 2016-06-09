@@ -32,6 +32,57 @@ angular.module('app')
 
  });
 
+'use strict'
+
+var app = angular.module('app');
+
+app.controller('ConnectCtrl', function ($scope,  $firebaseArray, UserService) {
+
+	var databaseRef = firebase.database().ref().child('users');
+	
+	//get users & update UI
+  	$scope.users = $firebaseArray(databaseRef);
+  	
+  	$scope.toggleFollow = function(user){
+  		var following = $scope.isFollowing(user.uid);
+  		selectedUser = {username:user.username, uid:user.uid};
+
+  		if(following){
+
+			//delete followee
+			firebase.database().ref('users/' + $scope.currentUser.uid+'/followees/'+user.uid).remove();
+
+			//update currentUser in scope
+			UserService.unFollow(selectedUser); 
+		}
+		else{
+
+			//$scope.followText = "unfollow"
+			//console.log(user.uid);
+			
+			//add followee [follow this user]
+			firebase.database().ref('users/' + $scope.currentUser.uid+'/followees/'+user.uid).set(selectedUser);
+			
+			//update currentUser in scope
+			UserService.follow(selectedUser); 
+		}
+  	}
+
+  	$scope.isFollowing = function(userid){
+  		//stop binding data, when user logsout
+  		if(!$scope.currentUser)return; 
+  		
+  		return UserService.isFollowing(userid);
+  	}
+
+  	//if user logs out, turnoff db listener
+  	firebase.auth().onAuthStateChanged(function(user) {
+	    if (!user) {
+	      databaseRef.off();
+	    }
+  	});
+
+});
 var app = angular.module('app');
 app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService) {
 
@@ -39,7 +90,12 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
   $scope.invalidLogin = false;
 
   $scope.login = function (username, password) {
+    
+    if(username == null || password == null)return;
+
     $scope.dataLoading = true;
+    //UserService.validUserName("");
+    
     auth.signInWithEmailAndPassword(username, password)
     .then(function(user){
       //get user record
@@ -62,7 +118,6 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorMessage);
-
       $scope.$apply(function() {
         $scope.dataLoading = false;
         $scope.invalidLogin = true;
@@ -75,7 +130,7 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
 
 var app = angular.module('app');
 
-app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService) {
+app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, UserService) {
 
 
 /************************************************************
@@ -107,7 +162,7 @@ FireBase Implementation
   $scope.addPost = function () {
     var date = new Date();
     var currMonth = months[date.getMonth() + 1];
-    var timeStamp = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+date.toLocaleTimeString();
+    var time = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+date.toLocaleTimeString();
     var pid =  generatePostId ($scope.currentUser.username);
     //console.log($scope.photo.text);
     //$scope.handleFileUpload($scope.photo);
@@ -118,7 +173,8 @@ FireBase Implementation
           username: $scope.currentUser.username,
           body: $scope.postBody,
           image: $scope.photo || "",
-          time: timeStamp,
+          time: time,
+          timeStamp:date.getTime(),
           pid: pid,
           uid: $scope.currentUser.uid
         }
@@ -134,6 +190,18 @@ FireBase Implementation
       databaseRef.off();
     }
   })
+
+  //see only posts from users ur following
+  $scope.isPostForMe = function(userid){
+      //stop binding data, when user logsout
+      if(!$scope.currentUser)return; 
+      
+      //see ur posts
+      if($scope.currentUser.uid === userid)return true;
+
+      //see posts of users ur following
+      return UserService.isFollowing(userid);
+  }
 
   // $scope.handleFileUpload = function(photo){
   //   var storageRef = firebase.storage().ref().child('posts_photos');
@@ -181,38 +249,55 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
     if(username && password && email)
     {
 
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(function(userData){
+      UserService.validUserName(username, function(valid){
+        //if username is unique, then register
+        if(valid){
+           firebase.auth().createUserWithEmailAndPassword(email, password)
+           .then(function(userData){
+
+          
+          //create user record
+          var user = {
+            uid: userData.uid,
+            username: username,
+            email: userData.email,
+            color:""
+          };
+
+          firebase.database().ref('users/' + user.uid).set(user);
+          firebase.database().ref('jb_usernames/' + user.uid).set(user.username);
 
 
-        var databaseRef = firebase.database().ref().child('posts');
+          UserService.setCredentials(user);
+          $scope.$apply(function() {
+              $scope.$emit('login');
+              $location.path('/home');
+          });
 
-        //create user record
-        var user = {
-          uid: userData.uid,
-          username: username,
-          email: userData.email,
-          color:""
-        };
-
-        firebase.database().ref('users/' + user.uid).set(user);
-        UserService.setCredentials(user);
-        $scope.$apply(function() {
-            $scope.$emit('login');
-            $location.path('/home');
-        });
-
-      })
-      .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorMessage);
-        $scope.$apply(function() {
+          })
+          .catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorMessage);
+            $scope.$apply(function() {
+                $scope.dataLoading = false;
+                $scope.errorMessage = errorMessage;
+            });
+          });
+        }
+        else{
+          
+           $scope.$apply(function() {
+            $scope.errorMessage = "Please choose another username, '"+username+"' is already taken."
             $scope.dataLoading = false;
-            $scope.errorMessage = errorMessage;
-        });
+          });
+           
+        }
+        
       });
+
+     
     }
 
   }
@@ -232,6 +317,7 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
         $routeProvider
           .when('/home', { controller: 'PostsCtrl', templateUrl: 'posts.html' })
           .when('/register', { controller: 'RegisterCtrl', templateUrl: 'register.html' })
+          .when('/connect', { controller: 'ConnectCtrl', templateUrl: 'connect.html' })
           .when('/', { controller: 'LoginCtrl', templateUrl: 'login.html' })
           .otherwise({ redirectTo: '/' });
     }
@@ -262,8 +348,9 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
             if (restrictedPage && !loggedIn) {
                 $location.path('/');
             }
-            //if logged in, u can't go to any other link apart from home
-            else if (loggedIn) {
+
+            // redirect to home page if logged in and trying to access login page
+            if (loggedIn && $location.path() == '/') {
                 $location.path('/home');
             }
 
@@ -289,10 +376,14 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
               email: user.email,
               color: user.color,
               uid: user.uid,
+              followees: JsonToArray(user.followees), //give them an index
               authdata: authdata
           }
       };
-    console.log(user.uid);
+
+    var array = JsonToArray($rootScope.globals.currentUser.followees);
+    console.log(array);  
+    //console.log($rootScope.globals.currentUser.followers);//MAsMs5MTiufuTCnnDpTiuCfCHMr1
     //set token for all request
     $cookieStore.put('globals', $rootScope.globals);
     $http.defaults.headers.common['x-auth'] = authdata; // jshint ignore:line
@@ -306,5 +397,67 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
       $http.defaults.headers.common.Authorization = null;
   }
 
+  svc.validUserName = function (username, callback) {
+    firebase.database().ref('/jb_usernames').once('value').then(function(snapshot) {
+      var valid = true; 
+      var obj = snapshot.val();
+
+      //convert snapshot to array & check if name is already in use
+      if(obj){
+        var array = JsonToArray(obj);//Object.keys(obj).map(function(k) { return obj[k] }); 
+        if(array.indexOf(username) > -1){valid = false;}
+      }
+      //return valid;
+      callback(valid);
+    });
+  }
+
+  svc.isFollowing = function (userid) {
+      // console.log($rootScope.globals.currentUser.followers);
+      var followees = $rootScope.globals.currentUser.followees || [];
+      //var following = false;
+
+      for(var i = 0; i < followees.length; i++){
+        if(followees[i].uid === userid){
+          return true;
+        }
+      }
+     
+     return false;
+  }
+
+  //MAKE THESE MORE EFFICIENT
+  svc.follow = function(user){
+    $rootScope.globals.currentUser.followees.push(user);
+
+    //refresh cache
+    $cookieStore.remove('globals');
+    $cookieStore.put('globals', $rootScope.globals);
+  }
+
+  svc.unFollow = function(user){
+    var followees = $rootScope.globals.currentUser.followees || [];
+    
+    for(var i = 0; i < followees.length; i++){
+      if(followees[i].uid === user.uid){
+        followees[i] = {};
+      }
+    }
+
+    //update Current user & cache
+    $rootScope.globals.currentUser.followees = followees;
+    $cookieStore.remove('globals');
+    $cookieStore.put('globals', $rootScope.globals);
+  }
 
 });
+
+/*********************************************
+helper function
+*********************************************/
+function JsonToArray(obj){
+  if(obj){  
+    return Object.keys(obj).map(function(k) { return obj[k] });     
+  }
+  return [];
+}

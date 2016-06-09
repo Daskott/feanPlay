@@ -12,6 +12,7 @@
         $routeProvider
           .when('/home', { controller: 'PostsCtrl', templateUrl: 'posts.html' })
           .when('/register', { controller: 'RegisterCtrl', templateUrl: 'register.html' })
+          .when('/connect', { controller: 'ConnectCtrl', templateUrl: 'connect.html' })
           .when('/', { controller: 'LoginCtrl', templateUrl: 'login.html' })
           .otherwise({ redirectTo: '/' });
     }
@@ -42,8 +43,9 @@
             if (restrictedPage && !loggedIn) {
                 $location.path('/');
             }
-            //if logged in, u can't go to any other link apart from home
-            else if (loggedIn) {
+
+            // redirect to home page if logged in and trying to access login page
+            if (loggedIn && $location.path() == '/') {
                 $location.path('/home');
             }
 

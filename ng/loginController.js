@@ -5,7 +5,12 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
   $scope.invalidLogin = false;
 
   $scope.login = function (username, password) {
+    
+    if(username == null || password == null)return;
+
     $scope.dataLoading = true;
+    //UserService.validUserName("");
+    
     auth.signInWithEmailAndPassword(username, password)
     .then(function(user){
       //get user record
@@ -28,7 +33,6 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorMessage);
-
       $scope.$apply(function() {
         $scope.dataLoading = false;
         $scope.invalidLogin = true;

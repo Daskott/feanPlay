@@ -1,7 +1,7 @@
 
 var app = angular.module('app');
 
-app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService) {
+app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, UserService) {
 
 
 /************************************************************
@@ -33,7 +33,7 @@ FireBase Implementation
   $scope.addPost = function () {
     var date = new Date();
     var currMonth = months[date.getMonth() + 1];
-    var timeStamp = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+date.toLocaleTimeString();
+    var time = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+date.toLocaleTimeString();
     var pid =  generatePostId ($scope.currentUser.username);
     //console.log($scope.photo.text);
     //$scope.handleFileUpload($scope.photo);
@@ -44,7 +44,8 @@ FireBase Implementation
           username: $scope.currentUser.username,
           body: $scope.postBody,
           image: $scope.photo || "",
-          time: timeStamp,
+          time: time,
+          timeStamp:date.getTime(),
           pid: pid,
           uid: $scope.currentUser.uid
         }
@@ -60,6 +61,18 @@ FireBase Implementation
       databaseRef.off();
     }
   })
+
+  //see only posts from users ur following
+  $scope.isPostForMe = function(userid){
+      //stop binding data, when user logsout
+      if(!$scope.currentUser)return; 
+      
+      //see ur posts
+      if($scope.currentUser.uid === userid)return true;
+
+      //see posts of users ur following
+      return UserService.isFollowing(userid);
+  }
 
   // $scope.handleFileUpload = function(photo){
   //   var storageRef = firebase.storage().ref().child('posts_photos');

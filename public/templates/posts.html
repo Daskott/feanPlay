@@ -17,7 +17,7 @@
   </form>
 
   <ul class='list-group'>
-    <li class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"date":true'>
+    <li ng-if="isPostForMe(post.uid)" class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"post.timeStamp":true'>
       <span class="avatar glyphicon glyphicon-user"></span>
       <strong class="handle">@{{post.username}}</strong><br>
       <span class="post-time">{{post.time}}</span>
@@ -29,3 +29,4 @@
 </div>
 <!-- ng-if="post.uid == currentUser.uid" USE THIS IDEA TO IMPLEMENT FOLLOWERS-->
 <!-- style="color:blue;margin-left:30px;" use ng-style-->
+<!-- <li ng-if="isPostForMe(post.uid)" class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"time":false'> -->
