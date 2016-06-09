@@ -8,7 +8,7 @@ var config = require('../../config');
 router.get('/', function (req, res) {
   var token = req.headers['x-auth']; //dont rili get
   var auth = jwt.decode(token, config.secret);
-
+  
   User.findOne({username: auth.username}, function(err, user){
     if (err) { return next(err); }
     if (!user) { return res.send(401); }

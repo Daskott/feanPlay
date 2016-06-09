@@ -13,6 +13,12 @@ angular.module('app')
     UserService.clearCredentials();
     $location.path('/'); //go back to sigin page
     $scope.currentUser = null;
+
+    // firebase.auth().signOut().then(function() {
+    //   // Sign-out successful.
+    // }, function(error) {
+    //   // An error happened.
+    // });
   }
-  
+
  });

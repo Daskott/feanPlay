@@ -5,14 +5,26 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
 
     if(username && password && email)
     {
-      UserService.register(username, email, password)
-      .then(function (response) {
+      // UserService.register(username, email, password)
+      // .then(function (response) {
+      //
+      //   //console.log(username, password);
+      //   UserService.login(username, password); //set user credentials
+      //   $location.path('/login'); //redirect to logi page
+      //   //console.log(response);
+      //
+      // });
 
-        //console.log(username, password);
-        UserService.login(username, password); //set user credentials
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(function(response){
+        console.log(response);
         $location.path('/login'); //redirect to logi page
-        //console.log(response);
-
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
       });
     }
 

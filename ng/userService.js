@@ -21,6 +21,26 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
   }
 
   //set credentials
+  // svc.setCredentials = function(token){
+  //
+  //   //get user credentials & store it globally
+  //   var authdata = token;
+  //   $http.get('/api/users', { headers: { 'x-auth': token } })
+  //   .success(function(user){
+  //     $rootScope.globals = {
+  //         currentUser: {
+  //             username: user.username,
+  //             email: user.email,
+  //             authdata: authdata
+  //         }
+  //     };
+  //
+  //     //set token for all request
+  //     $cookieStore.put('globals', $rootScope.globals);
+  //     $http.defaults.headers.common['x-auth'] = authdata; // jshint ignore:line
+  //   });
+  // }
+
   svc.setCredentials = function(token){
 
     //get user credentials & store it globally
