@@ -8,12 +8,18 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
     $scope.dataLoading = true;
     auth.signInWithEmailAndPassword(username, password)
     .then(function(user){
-      UserService.setCredentials(user);
-      $scope.$apply(function() {
-          $scope.dataLoading = false;
-          $scope.invalidLogin = false;
-          $scope.$emit('login');
-          $location.path('/home');
+      //get user record
+      firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
+        var user = snapshot.val();
+
+        UserService.setCredentials(user);
+        $scope.$apply(function() {
+            $scope.dataLoading = false;
+            $scope.invalidLogin = false;
+            $scope.$emit('login');
+            $location.path('/home');
+        });
+
       });
 
     })

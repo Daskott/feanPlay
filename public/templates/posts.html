@@ -4,7 +4,7 @@
     <textarea placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control'>
       </textarea>
     <!-- <input type="submit" class="btn btn-success post-button" class='btn btn-default' value="Post"></input> -->
-    
+
     <div class="button-pane">
       <button type="button" class="btn btn-success image-button"  ng-click="addPost()">
         <!-- <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> -->
@@ -12,13 +12,13 @@
       </button>
       <!-- <input type="file" ng-model="photo"></input> -->
     </div>
-    
+
      <!-- <input ng-click="google()" class="btn btn-success post-button" class='btn btn-default' value="SignIn"></input> -->
   </form>
 
   <ul class='list-group'>
     <li class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"date":true'>
-      <span class="avatar glyphicon glyphicon-user"></span> 
+      <span class="avatar glyphicon glyphicon-user"></span>
       <strong class="handle">@{{post.username}}</strong><br>
       <span class="post-time">{{post.time}}</span>
       <p class="post-body">{{post.body}}</p>
@@ -27,4 +27,5 @@
 
 
 </div>
+<!-- ng-if="post.uid == currentUser.uid" USE THIS IDEA TO IMPLEMENT FOLLOWERS-->
 <!-- style="color:blue;margin-left:30px;" use ng-style-->

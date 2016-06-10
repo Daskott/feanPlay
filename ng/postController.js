@@ -22,12 +22,19 @@ FireBase Implementation
   //get post & update UI
   $scope.posts = $firebaseArray(databaseRef);
 
+  // databaseRef.on('child_added', function(snapshot) {
+  //   // $scope.$apply(function() {
+  //   //   $scope.posts.unshift(snapshot.val());
+  //   // });
+  //   console.log(snapshot.val());
+  // });
+
   //save post to realTime db
   $scope.addPost = function () {
     var date = new Date();
     var currMonth = months[date.getMonth() + 1];
     var timeStamp = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+date.toLocaleTimeString();
-
+    var pid =  generatePostId ($scope.currentUser.username);
     //console.log($scope.photo.text);
     //$scope.handleFileUpload($scope.photo);
 
@@ -37,9 +44,13 @@ FireBase Implementation
           username: $scope.currentUser.username,
           body: $scope.postBody,
           image: $scope.photo || "",
-          time: timeStamp
+          time: timeStamp,
+          pid: pid,
+          uid: $scope.currentUser.uid
         }
-        databaseRef.push().set(post);
+
+        firebase.database().ref('posts/' + post.pid).set(post);
+        // databaseRef.push().set(post);
         $scope.postBody = null; //clear input field
     }
   }
@@ -62,3 +73,12 @@ FireBase Implementation
   // }
 
 });
+
+
+  /**************************************
+  helper functions
+  ****************************************/
+  function generatePostId (username){
+    var date = new Date();
+    return (username)+""+date.getTime()+""+Math.floor((Math.random() * 100) + 1);
+  }

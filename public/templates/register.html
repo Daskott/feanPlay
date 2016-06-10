@@ -1,7 +1,7 @@
 <div class="card container register-pane">
-  <!-- <div ng-show="invalidForm" class="alert alert-danger" role="alert">
-    <strong>Oh snap!</strong> Your form is incomplete :(
-  </div> -->
+  <div ng-show="errorMessage" class="alert alert-danger" role="alert">
+    <strong>Oh snap!</strong>  {{errorMessage}}
+  </div>
   <form data-toggle="validator" ng-submit="register(username, email, password)" class="card-block">
     <h4 class="card-title" id="register-title">Register</h4>
      <div class="form-group">

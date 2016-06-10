@@ -7,22 +7,24 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
     {
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(function(user){
+      .then(function(userData){
 
-        //update username [MAKE SURE USERNAME IS UNIQUE] -- update user node with profile info
-        user.updateProfile({
-          displayName: username,
-        })
-        .then(function() {
-          // Update successful.
-          UserService.setCredentials(user);
-          $scope.$apply(function() {
-              $scope.$emit('login');
-              $location.path('/home');
-          });
-          console.log("successful sigin");
-        }, function(error) {
-          // An error happened.
+
+        var databaseRef = firebase.database().ref().child('posts');
+
+        //create user record
+        var user = {
+          uid: userData.uid,
+          username: username,
+          email: userData.email,
+          color:""
+        };
+
+        firebase.database().ref('users/' + user.uid).set(user);
+        UserService.setCredentials(user);
+        $scope.$apply(function() {
+            $scope.$emit('login');
+            $location.path('/home');
         });
 
       })
@@ -33,6 +35,7 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
         console.log(errorMessage);
         $scope.$apply(function() {
             $scope.dataLoading = false;
+            $scope.errorMessage = errorMessage;
         });
       });
     }

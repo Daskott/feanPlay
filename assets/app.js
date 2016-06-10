@@ -32,28 +32,6 @@ angular.module('app')
 
  });
 
-// var app = angular.module('app');
-// app.run(function ($rootScope) {
-	
-//   // Initialize Firebase
-//   var config = ""
-
-//   var app = firebase.initializeApp(config);
-//   var database = app.database();
-//   var auth = app.auth;
-//   var storage = app.storage();
-
-//   //get reference to our posts in the database
-//   var databaseRef = database.ref().child('posts');
-
-//   //send new post to postcontroller
-//   databaseRef.on('child_added', function(snapshot){
-//     var post = snapshot.val();
-//     $rootScope.$broadcast('fb:new_post', post); //update UI
-//   });
-  
-// });
-
 var app = angular.module('app');
 app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService) {
 
@@ -64,12 +42,18 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
     $scope.dataLoading = true;
     auth.signInWithEmailAndPassword(username, password)
     .then(function(user){
-      UserService.setCredentials(user);
-      $scope.$apply(function() {
-          $scope.dataLoading = false;
-          $scope.invalidLogin = false;
-          $scope.$emit('login');
-          $location.path('/home');
+      //get user record
+      firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
+        var user = snapshot.val();
+
+        UserService.setCredentials(user);
+        $scope.$apply(function() {
+            $scope.dataLoading = false;
+            $scope.invalidLogin = false;
+            $scope.$emit('login');
+            $location.path('/home');
+        });
+
       });
 
     })
@@ -112,12 +96,19 @@ FireBase Implementation
   //get post & update UI
   $scope.posts = $firebaseArray(databaseRef);
 
+  // databaseRef.on('child_added', function(snapshot) {
+  //   // $scope.$apply(function() {
+  //   //   $scope.posts.unshift(snapshot.val());
+  //   // });
+  //   console.log(snapshot.val());
+  // });
+
   //save post to realTime db
   $scope.addPost = function () {
     var date = new Date();
     var currMonth = months[date.getMonth() + 1];
     var timeStamp = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+date.toLocaleTimeString();
-
+    var pid =  generatePostId ($scope.currentUser.username);
     //console.log($scope.photo.text);
     //$scope.handleFileUpload($scope.photo);
 
@@ -127,9 +118,13 @@ FireBase Implementation
           username: $scope.currentUser.username,
           body: $scope.postBody,
           image: $scope.photo || "",
-          time: timeStamp
+          time: timeStamp,
+          pid: pid,
+          uid: $scope.currentUser.uid
         }
-        databaseRef.push().set(post);
+
+        firebase.database().ref('posts/' + post.pid).set(post);
+        // databaseRef.push().set(post);
         $scope.postBody = null; //clear input field
     }
   }
@@ -152,6 +147,15 @@ FireBase Implementation
   // }
 
 });
+
+
+  /**************************************
+  helper functions
+  ****************************************/
+  function generatePostId (username){
+    var date = new Date();
+    return (username)+""+date.getTime()+""+Math.floor((Math.random() * 100) + 1);
+  }
 
 var app = angular.module('app');
 
@@ -178,22 +182,24 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
     {
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(function(user){
+      .then(function(userData){
 
-        //update username [MAKE SURE USERNAME IS UNIQUE] -- update user node with profile info
-        user.updateProfile({
-          displayName: username,
-        })
-        .then(function() {
-          // Update successful.
-          UserService.setCredentials(user);
-          $scope.$apply(function() {
-              $scope.$emit('login');
-              $location.path('/home');
-          });
-          console.log("successful sigin");
-        }, function(error) {
-          // An error happened.
+
+        var databaseRef = firebase.database().ref().child('posts');
+
+        //create user record
+        var user = {
+          uid: userData.uid,
+          username: username,
+          email: userData.email,
+          color:""
+        };
+
+        firebase.database().ref('users/' + user.uid).set(user);
+        UserService.setCredentials(user);
+        $scope.$apply(function() {
+            $scope.$emit('login');
+            $location.path('/home');
         });
 
       })
@@ -204,6 +210,7 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
         console.log(errorMessage);
         $scope.$apply(function() {
             $scope.dataLoading = false;
+            $scope.errorMessage = errorMessage;
         });
       });
     }
@@ -271,18 +278,21 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
 /*********************************************
   Firebase Implementation
 **********************************************/
+  var svc = this;
   svc.setCredentials = function(user){
 
     //get user credentials & store it globally [replace  currentUser with user]
     var authdata = "token";
     $rootScope.globals = {
           currentUser: {
-              username: user.displayName,
+              username: user.username,
               email: user.email,
+              color: user.color,
+              uid: user.uid,
               authdata: authdata
           }
       };
-    console.log(user.email);
+    console.log(user.uid);
     //set token for all request
     $cookieStore.put('globals', $rootScope.globals);
     $http.defaults.headers.common['x-auth'] = authdata; // jshint ignore:line
