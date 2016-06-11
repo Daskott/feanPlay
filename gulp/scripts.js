@@ -16,12 +16,12 @@ var livereload = require('gulp-livereload');
 * gulp.dest-> then save output in 'assets/app.js'
 */
 gulp.task('js', function(){
-  gulp.src(['./ng/module.js','./ng/**/*.js'])
-  // .pipe(sourcemaps.init())
+  gulp.src(['./ng/firebase.js','./ng/module.js','./ng/**/*.js'])
+  //.pipe(sourcemaps.init())
   .pipe(concat('app.js'))
-  // .pipe(ngAnnotate())
-  // .pipe(uglify())
-  // .pipe(sourcemaps.write())
+  .pipe(ngAnnotate())
+  .pipe(uglify())
+  //.pipe(sourcemaps.write())
   .pipe(gulp.dest('assets'))
   .pipe(livereload());
 });

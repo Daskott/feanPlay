@@ -1,9 +1,9 @@
 var app = angular.module('app');
 app.controller('RegisterCtrl', function ($scope, $location, UserService) {
 
-  $scope.register = function (username, email, password) {
+  $scope.register = function (fullname, username, email, password) {
     $scope.dataLoading = true;
-    if(username && password && email)
+    if(fullname && username && password && email)
     {
 
       UserService.validUserName(username, function(valid){
@@ -12,13 +12,14 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
            firebase.auth().createUserWithEmailAndPassword(email, password)
            .then(function(userData){
 
-          
+
           //create user record
           var user = {
             uid: userData.uid,
+            fullname: fullname,
             username: username,
             email: userData.email,
-            color:""
+            color:getRandomColor()
           };
 
           firebase.database().ref('users/' + user.uid).set(user);
@@ -44,18 +45,33 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
           });
         }
         else{
-          
+
            $scope.$apply(function() {
             $scope.errorMessage = "Please choose another username, '"+username+"' is already taken."
             $scope.dataLoading = false;
           });
-           
+
         }
-        
+
       });
 
-     
+
     }
 
   }
 });
+
+/*******************************************
+helper functions
+*********************************************/
+var colors = ['#ef5350', '#9C27B0', '#FF5722', '#795548', '#FFC107', '#4CAF50', '#009688',
+              '#00BCD4', '#03A9F4', '#2196F3', '#3F51B5', '#673AB7', '#263238', '#33691E',
+              '#c0392b', '#e74c3c', '#2980b9', '#3498db', '#f1c40f', '#9b59b6', '#a0522d']
+
+
+function getRandomColor()
+{
+  var index = Math.floor((Math.random() * colors.length));
+
+  return colors[index];
+}

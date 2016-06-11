@@ -2,9 +2,7 @@
 
   <form ng-submit="addPost()" class="card post-panel">
     <textarea placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control'>
-      </textarea>
-    <!-- <input type="submit" class="btn btn-success post-button" class='btn btn-default' value="Post"></input> -->
-
+    </textarea>
     <div class="button-pane">
       <button type="button" class="btn btn-success image-button"  ng-click="addPost()">
         <!-- <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> -->
@@ -12,21 +10,18 @@
       </button>
       <!-- <input type="file" ng-model="photo"></input> -->
     </div>
-
-     <!-- <input ng-click="google()" class="btn btn-success post-button" class='btn btn-default' value="SignIn"></input> -->
   </form>
 
   <ul class='list-group'>
-    <li ng-if="isPostForMe(post.uid)" class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"post.timeStamp":true'>
-      <span class="avatar glyphicon glyphicon-user"></span>
-      <strong class="handle">@{{post.username}}</strong><br>
-      <span class="post-time">{{post.time}}</span>
+    <li ng-if="isPostForMe(post.username, post.uid)" class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"post.key":true'>
+      <span class="avatar glyphicon glyphicon-user " ng-style="{'background-color':post.color}"></span>
+      <p>
+        <strong class="post-fullname" ng-style="{color:post.color}">{{post.fullname}}</strong> <span class="post-handle">@{{post.username}}<span> <br>
+        <span class="post-time">{{post.time}}</span>
+      </p>
       <p class="post-body">{{post.body}}</p>
     </li>
   </ul>
 
 
 </div>
-<!-- ng-if="post.uid == currentUser.uid" USE THIS IDEA TO IMPLEMENT FOLLOWERS-->
-<!-- style="color:blue;margin-left:30px;" use ng-style-->
-<!-- <li ng-if="isPostForMe(post.uid)" class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"time":false'> -->

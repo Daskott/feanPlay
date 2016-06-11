@@ -1,19 +1,24 @@
-<div class='container post-container' >
+<div class='container post-container'>
+  <div class="row">
+    <div class="col-sm-6 col-md-4" ng-hide="currentUser.uid == user.uid" ng-repeat='user in users'>
+  <!-- <ul class='list-group'> -->
+    <!-- <li ng-hide="currentUser.uid == user.uid" class='list-group-item post-item card' ng-repeat='user in users'> -->
+      <div class="thumbnail">
+        <div class="caption">
+          <span class="avatar glyphicon glyphicon-user " ng-style="{'background-color':user.color}"></span>
+          <p>
+            <strong class="post-fullname" ng-style="{color:user.color}">{{user.fullname}}</strong><br><span class="post-handle">@{{user.username}}<span> <br>
+          </p>
 
-  <ul class='list-group'>
-    <li ng-hide="currentUser.uid == user.uid" class='list-group-item post-item card' ng-repeat='user in users'>
-      <span class="avatar glyphicon glyphicon-user"></span>
-      <strong class="handle">@{{user.username}}</strong><br>
-
-      <button type="button" class="btn image-button" ng-class="{'btn-danger': isFollowing(user.uid)}" ng-click="toggleFollow(user)">
-        <span class="glyphicon glyphicon-plus"  ng-class="{'glyphicon-remove': isFollowing(user.uid)}" aria-hidden="true"></span>
-        <span ng-show="isFollowing(user.uid)">unfollow</span>
-        <span ng-hide="isFollowing(user.uid)">follow</span>
-      </button>
-      <span ng-show="isFollowing(user.uid)">following</span>
-    </li>
-  </ul>
-
+          <button type="button" class="btn image-button" ng-class="{'btn-danger': isFollowing(user.username)}" ng-click="toggleFollow(user)">
+            <span class="glyphicon glyphicon-plus"  ng-class="{'glyphicon-remove': isFollowing(user.username)}" aria-hidden="true"></span>
+            <span ng-show="isFollowing(user.username)">unfollow</span>
+            <span ng-hide="isFollowing(user.username)">follow</span>
+          </button>
+        </div>
+      </div>
+    <!-- </li> -->
+  <!-- </ul> -->
+    </div>
+  </div>
 </div>
-<!-- ng-if="post.uid == currentUser.uid" USE THIS IDEA TO IMPLEMENT FOLLOWERS-->
-<!-- style="color:blue;margin-left:30px;" use ng-style-->

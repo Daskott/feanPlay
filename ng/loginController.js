@@ -4,18 +4,20 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
   var auth = firebase.auth();
   $scope.invalidLogin = false;
 
-  $scope.login = function (username, password) {
-    
-    if(username == null || password == null)return;
+  $scope.login = function (email, password) {
+
+    if(email == null || password == null)return;
 
     $scope.dataLoading = true;
-    //UserService.validUserName("");
-    
-    auth.signInWithEmailAndPassword(username, password)
+
+    auth.signInWithEmailAndPassword(email, password)
     .then(function(user){
       //get user record
       firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
         var user = snapshot.val();
+
+        //reset login status
+        UserService.clearCredentials();
 
         UserService.setCredentials(user);
         $scope.$apply(function() {

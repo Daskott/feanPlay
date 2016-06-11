@@ -8,21 +8,23 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
   svc.setCredentials = function(user){
 
     //get user credentials & store it globally [replace  currentUser with user]
+    // SET TOKEN IN THE FUTURE FOR SERVER REQUEST
     var authdata = "token";
     $rootScope.globals = {
           currentUser: {
               username: user.username,
+              fullname: user.fullname,
               email: user.email,
               color: user.color,
               uid: user.uid,
-              followees: JsonToArray(user.followees), //give them an index
+              followees: JsonToArray(user.followees),
               authdata: authdata
           }
       };
 
     var array = JsonToArray($rootScope.globals.currentUser.followees);
-    console.log(array);  
-    //console.log($rootScope.globals.currentUser.followers);//MAsMs5MTiufuTCnnDpTiuCfCHMr1
+    console.log(array);
+
     //set token for all request
     $cookieStore.put('globals', $rootScope.globals);
     $http.defaults.headers.common['x-auth'] = authdata; // jshint ignore:line
@@ -38,12 +40,12 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
 
   svc.validUserName = function (username, callback) {
     firebase.database().ref('/jb_usernames').once('value').then(function(snapshot) {
-      var valid = true; 
+      var valid = true;
       var obj = snapshot.val();
 
       //convert snapshot to array & check if name is already in use
       if(obj){
-        var array = JsonToArray(obj);//Object.keys(obj).map(function(k) { return obj[k] }); 
+        var array = JsonToArray(obj);
         if(array.indexOf(username) > -1){valid = false;}
       }
       //return valid;
@@ -51,36 +53,33 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
     });
   }
 
-  svc.isFollowing = function (userid) {
-      // console.log($rootScope.globals.currentUser.followers);
-      var followees = $rootScope.globals.currentUser.followees || [];
-      //var following = false;
+  svc.isFollowing = function (username) {
 
-      for(var i = 0; i < followees.length; i++){
-        if(followees[i].uid === userid){
-          return true;
-        }
+      var followees = $rootScope.globals.currentUser.followees;
+
+      if(followees.indexOf(username) > -1){
+        return true;
       }
-     
+
      return false;
   }
 
   //MAKE THESE MORE EFFICIENT
-  svc.follow = function(user){
-    $rootScope.globals.currentUser.followees.push(user);
-
+  svc.follow = function(username){
+    $rootScope.globals.currentUser.followees.push(username);
+    
     //refresh cache
     $cookieStore.remove('globals');
     $cookieStore.put('globals', $rootScope.globals);
   }
 
-  svc.unFollow = function(user){
-    var followees = $rootScope.globals.currentUser.followees || [];
-    
-    for(var i = 0; i < followees.length; i++){
-      if(followees[i].uid === user.uid){
-        followees[i] = {};
-      }
+  svc.unFollow = function(username){
+    var followees = $rootScope.globals.currentUser.followees;
+
+    //remove user from followees list
+    index = followees.indexOf(username);
+    if(index > -1){
+      followees[index] = '';
     }
 
     //update Current user & cache
@@ -95,8 +94,8 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
 helper function
 *********************************************/
 function JsonToArray(obj){
-  if(obj){  
-    return Object.keys(obj).map(function(k) { return obj[k] });     
+  if(obj){
+    return Object.keys(obj).map(function(k) { return obj[k] });
   }
   return [];
 }
