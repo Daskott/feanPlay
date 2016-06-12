@@ -8,7 +8,7 @@ angular.module('app')
   (function initController() {
     //defacult nav
     $scope.nav = 0;
-    
+
     if ($location.path() == '/home')
       $scope.nav = 0;
     else if ($location.path() == '/connect')
@@ -33,7 +33,8 @@ angular.module('app')
     //go back to sigin page
     $location.path('/');
     $scope.currentUser = null;
-
+    $scope.nav = 0;
+    
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
       console.log("signed out");

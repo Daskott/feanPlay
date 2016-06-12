@@ -23,7 +23,6 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
       };
 
     var array = JsonToArray($rootScope.globals.currentUser.followees);
-    console.log(array);
 
     //set token for all request
     $cookieStore.put('globals', $rootScope.globals);
@@ -66,11 +65,16 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
 
   //MAKE THESE MORE EFFICIENT
   svc.follow = function(username){
-    $rootScope.globals.currentUser.followees.push(username);
-    
-    //refresh cache
-    $cookieStore.remove('globals');
-    $cookieStore.put('globals', $rootScope.globals);
+
+    //add followee if he/she is not already in list
+    if($rootScope.globals.currentUser.followees.indexOf(username) <= -1){
+      $rootScope.globals.currentUser.followees.push(username);
+
+      //refresh cache
+      $cookieStore.remove('globals');
+      $cookieStore.put('globals', $rootScope.globals);
+    }
+
   }
 
   svc.unFollow = function(username){

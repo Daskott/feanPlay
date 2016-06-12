@@ -2,16 +2,31 @@
 
 var app = angular.module('app');
 
-app.controller('ConnectCtrl', function ($scope,  $firebaseArray, UserService) {
+app.controller('ConnectCtrl', function ($scope, $rootScope, $firebaseArray, UserService) {
 
 	var databaseRef = firebase.database().ref().child('users');
+	var followeesRef = firebase.database().ref().child('users/' + $scope.currentUser.uid+'/followees');
+
+	//dynamically update followees when new 1 is added
+	followeesRef.on('child_added', function(data) {
+			UserService.follow(data.val());
+				console.log("add");
+
+	});
+
+	//dynamically update followees when unFollow
+	followeesRef.on('child_removed', function(data) {
+  		UserService.unFollow(data.val());
+				console.log("remove");
+	});
+
 
 		//get users & update UI
   	$scope.users = $firebaseArray(databaseRef);
 
   	$scope.toggleFollow = function(user){
   		var following = $scope.isFollowing(user.username);
-  		selectedUserName = user.username;//{username:user.username, uid:user.uid};
+  		selectedUserName = user.username;
 
   		if(following){
 

@@ -17,7 +17,6 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
         writeNewPost($scope.currentUser.uid, $scope.currentUser.username,$scope.currentUser.fullname,
                      $scope.postBody, $scope.photo || "", $scope.currentUser.color);
       }
-      
       //clear input field
       $scope.postBody = null;
   }

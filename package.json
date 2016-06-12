@@ -7,6 +7,7 @@
     "blanket": "^1.2.3",
     "body-parser": "^1.15.1",
     "chai": "^3.5.0",
+    "dotenv": "^2.0.0",
     "express": "^4.13.4",
     "firebase": "^3.0.4",
     "gulp": "^3.9.1",
