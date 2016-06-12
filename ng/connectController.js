@@ -10,14 +10,11 @@ app.controller('ConnectCtrl', function ($scope, $rootScope, $firebaseArray, User
 	//dynamically update followees when new 1 is added
 	followeesRef.on('child_added', function(data) {
 			UserService.follow(data.val());
-				console.log("add");
-
 	});
 
 	//dynamically update followees when unFollow
 	followeesRef.on('child_removed', function(data) {
   		UserService.unFollow(data.val());
-				console.log("remove");
 	});
 
 
