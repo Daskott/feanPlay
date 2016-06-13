@@ -1,6 +1,6 @@
 <div class="card container login-pane">
-  <div ng-show="invalidLogin" class="alert alert-danger" role="alert">
-    <strong>Oh snap!</strong> Your Username or Password incorrect :(
+  <div ng-show="errorMessage" class="alert alert-danger" role="alert">
+    <strong>Oh snap!</strong> {{errorMessage}}
   </div>
   <form ng-submit="login(email, password)" class="card-block">
     <h4 class="card-title" id="login-title">Sign in</h4>

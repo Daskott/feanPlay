@@ -6,9 +6,10 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
 
   $scope.login = function (email, password) {
 
-    if(email == null || password == null)return;
+    //if(email == null || password == null)return;
 
     $scope.dataLoading = true;
+    $scope.errorMessage = null;
 
     auth.signInWithEmailAndPassword(email, password)
     .then(function(user){
@@ -23,6 +24,7 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
         $scope.$apply(function() {
             $scope.dataLoading = false;
             $scope.invalidLogin = false;
+            $scope.errorMessage = null;
             $scope.$emit('login');
             $location.path('/home');
         });
@@ -33,11 +35,10 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
     .catch(function(error) {
       // Handle Errors here
       var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
+      // console.log(errorMessage);
       $scope.$apply(function() {
         $scope.dataLoading = false;
-        $scope.invalidLogin = true;
+        $scope.errorMessage = error.message;
       });
     });
   }

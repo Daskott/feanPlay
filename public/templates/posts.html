@@ -19,7 +19,7 @@
         <strong class="post-fullname" ng-style="{color:post.color}">{{post.fullname}}</strong> <span class="post-handle">@{{post.username}}<span> <br>
         <span class="post-time">{{post.time}}</span>
       </p>
-      <p class="post-body">{{post.body}}</p>
+      <p class="post-body" ng-bind-html="post.body | linky:'_blank'"></p>
     </li>
   </ul>
 
