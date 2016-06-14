@@ -1,15 +1,33 @@
 <div class='container post-container' >
 
   <form ng-submit="addPost()" class="card post-panel">
-    <textarea placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control'>
+    
+    <!-- Text elements -->
+    <textarea ng-show="isSelectedPost(0)" placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control'>
     </textarea>
+
+    <!-- K-bits elements -->
+    <div ng-show="isSelectedPost(1)" class="form-group">
+       <input placeholder="Ask a Question ?" class="form-control input" type="text" ng-model="question">
+     </div>
+     <div ng-show="isSelectedPost(1)" class="form-group">
+       <input  placeholder="Provide the Answer :)" class="form-control input" type="text" ng-model="answer">
+    </div>
+    <tags-input ng-show="isSelectedPost(1)" ng-model="tags"></tags-input>
+    <div class"tags-margin"><p> </p></div>
+
+    <!-- Button Pane -->
     <div class="button-pane">
       <button type="button" class="btn btn-success image-button"  ng-click="addPost()">
-        <!-- <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> -->
         Share
       </button>
-      <!-- <input type="file" ng-model="photo"></input> -->
+      
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(0)}" ng-click="setPostType(0)">Text</button>
+        <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(1)}" ng-click="setPostType(1)">K-bits</button>
+      </div>
     </div>
+
   </form>
 
   <ul class='list-group'>

@@ -22,6 +22,9 @@ p {
 .capitalize {
   text-transform: capitalize;
 }
+.inline-block {
+  display: inline-block;
+}
 /********************************
 * Post Page
 ********************************/
@@ -74,6 +77,11 @@ p.post-body {
   padding: 0px;
   margin: 0px;
 }
+.selected {
+  background-color: #e0e0e0;
+  font-weight: bold;
+  color: #000;
+}
 /********************************
 * Login Page
 *********************************/
@@ -116,8 +124,8 @@ input[type="password"] {
   outline: 0;
   padding: 12px;
   width: 100%;
-  background-color: #ececec;
-  color: #8a97a0;
+  background-color: #fff;
+  color: #000;
   border-radius: 5px;
   box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
   margin-bottom: 30px;

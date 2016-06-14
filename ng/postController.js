@@ -3,6 +3,8 @@ var app = angular.module('app');
 
 app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, UserService) {
 
+  $scope.postSelection = 0;
+  
   //get reference to our posts in the database
   var databaseRef = firebase.database().ref().child('posts');
 
@@ -34,6 +36,18 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
       // //see posts of users ur following
       return UserService.isFollowing(username);
   }
+
+
+
+   $scope.setPostType = function(postSelection){
+    $scope.postSelection = postSelection;
+  }
+
+  $scope.isSelectedPost = function(postSelection){
+    return $scope.postSelection === postSelection;
+  }
+
+
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (!user) {
