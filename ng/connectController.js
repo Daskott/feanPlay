@@ -18,7 +18,7 @@ app.controller('ConnectCtrl', function ($scope, $rootScope, $firebaseArray, User
 	});
 
 
-		//get users & update UI
+	//get users & update UI
   	$scope.users = $firebaseArray(databaseRef);
 
   	$scope.toggleFollow = function(user){
@@ -27,12 +27,13 @@ app.controller('ConnectCtrl', function ($scope, $rootScope, $firebaseArray, User
 
   		if(following){
 
-				// delete the followee data simultaneously in the currentUser list and the user's followers list.
+			// delete the followee data simultaneously in the currentUser list and the user's followers list.
 		    var updates = {};
 		    updates['users/' + $scope.currentUser.uid+'/followees/'+user.uid] = null;
-		    updates['followers/' + user.uid+'/'+$scope.currentUser.uid] = null;
+	     	updates['users/' + user.uid+'/followers/'+$scope.currentUser.uid] = null;
+	     	//OLD IMPLEMENTATION OF FOLLOWERS
+		    // updates['followers/' + user.uid+'/'+$scope.currentUser.uid] = null;
 		    firebase.database().ref().update(updates);
-
 				//update currentUser in scope
 				UserService.unFollow(selectedUserName);
 			}
@@ -40,9 +41,11 @@ app.controller('ConnectCtrl', function ($scope, $rootScope, $firebaseArray, User
 
 				// add the followee data simultaneously in the currentUser list and the user's followers list.
 				var updates = {};
-		    updates['users/' + $scope.currentUser.uid+'/followees/'+user.uid] = selectedUserName;
-		    updates['followers/' + user.uid+'/'+$scope.currentUser.uid] =  $scope.currentUser.username;
-		   	firebase.database().ref().update(updates);
+		    	updates['users/' + $scope.currentUser.uid+'/followees/'+user.uid] = selectedUserName;
+		    	updates['users/' + user.uid+'/followers/'+$scope.currentUser.uid] = $scope.currentUser.username;
+		    	//OLD IMPLEMENTATION OF FOLLOWERS
+		    	//updates['followers/' + user.uid+'/'+$scope.currentUser.uid] =  $scope.currentUser.username;
+		   		firebase.database().ref().update(updates);
 
 				//update currentUser in scope
 				UserService.follow(selectedUserName);

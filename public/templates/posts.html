@@ -1,18 +1,17 @@
 <div class='container post-container' >
 
   <form ng-submit="addPost()" class="card post-panel">
-    
-   <!--  <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(0)}" ng-click="setPostType(0)">Text</button>
-      <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(1)}" ng-click="setPostType(1)">K-bits</button>
-    </div> -->
+
     <ul class="nav nav-tabs">
       <li role="presentation" class="active" ng-class="{'active': isSelectedPost(0)}"><a class="grey" ng-click="setPostType(0)">Text</a></li>
       <li role="presentation" ng-class="{'active': isSelectedPost(1)}"><a class="grey" ng-click="setPostType(1)" >K-bits</a></li>
     </ul>
+    
     <!-- Text elements -->
-    <textarea ng-show="isSelectedPost(0)" placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control post-text-body'>
-    </textarea>
+    <div ng-show="isSelectedPost(0)" class="text-panel">
+      <textarea placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control post-text-body'>
+      </textarea>
+    </div>
 
     <!-- K-bits elements -->
     <div ng-show="isSelectedPost(1)" class="k-bit-panel">
@@ -58,20 +57,32 @@
       <!-- K-bits -->
       <div ng-show="post.type === 'K-bits'" class="flip card"> 
         <div class="card k-bit-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped"> 
-            <div class="face front card">
+            <div ng-hide="isFlipped" class="face front card">
                  <!-- Question -->
-                <p class="k-card-content"><span>Question:</span><br>{{post.title}}</p> 
+                <p class="k-card-content"><span>Question:</span><br>{{post.title}}<br>
+                  <span class="k-quest-text glyphicon glyphicon-hand-up"> Tap</span>
+                </p>
             </div> 
-            <div class="face back card"> 
+            <div ng-show="isFlipped" class="face back card"> 
               <!-- Answer -->
-               <p class="k-card-content"><span>Answer:</span><br>{{post.body}}</p>
-            </div> 
+               <p class="k-card-content">
+                <span>Answer:</span></h3><br>{{post.body}}<br>
+                <span class="k-ans-text glyphicon glyphicon-hand-up"> Tap</span>
+               </p>
+            </div>
         </div> 
       </div> 
       <div class="tags-div">
         <span ng-show="post.type === 'K-bits'"ng-repeat='tag in post.tags'class="label tags">
         {{tag.text}}
       </span>
+      </div>
+
+      <!-- Likes -->
+      <div id="vote-div">
+        <span class="post-vote-button glyphicon glyphicon-thumbs-up" ng-class='{yellow: votedThisPost(post.votes)}' ng-click="toggleVote(post.key, post.uid)">
+        </span>
+        <span id="vote-count">{{post.voteCount}}</span>
       </div>
     </li>
   </ul>

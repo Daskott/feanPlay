@@ -76,6 +76,45 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
       // //see posts of users ur following
       return UserService.isFollowing(username);
   }
+  
+  $scope.toggleVote = function(postId, userId){
+
+    var postRef = firebase.database().ref().child('posts/'+postId);
+    //var userPostRef = firebase.database().ref().child('user-posts/' + userId+'/'+postId);
+    var currUserId = $scope.currentUser.uid;
+    
+    //update public posts
+    postRef.transaction(function(post) {
+      if (post.votes && post.votes[currUserId]) {
+        post.voteCount--;
+        post.votes[currUserId] = null;
+      } else {
+        post.voteCount++;
+        if (!post.votes) {
+          post.votes = {};
+        }
+        post.votes[currUserId] = true;
+      }
+      
+      //update specific user's post 'voteCount' & votes
+      firebase.database().ref()
+      .child('user-posts/' + userId+'/'+postId+'/votes/'+currUserId)
+      .set(post.votes[currUserId]);
+
+      firebase.database().ref()
+      .child('user-posts/' + userId+'/'+postId+'/voteCount')
+      .set(post.voteCount);
+
+      return post;
+    });
+  }
+
+  $scope.votedThisPost = function(postVotes){ 
+      if(postVotes && postVotes[$scope.currentUser.uid])
+        return true;
+      else
+        return false;
+  }
 
   $scope.setPostType = function(postSelection){
     $scope.postSelection = postSelection;
@@ -157,6 +196,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
       time: time,
       key:"",
       voteCount:0,
+      votes:{},
       uid: uid
     }
 

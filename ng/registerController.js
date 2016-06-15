@@ -19,6 +19,8 @@ app.controller('RegisterCtrl', function ($scope, $location, UserService) {
             fullname: fullname,
             username: username,
             email: userData.email,
+            followees:{},
+            followers:{},
             color:getRandomColor()
           };
 
