@@ -56,21 +56,26 @@
         <p class="post-body" ng-bind-html="post.body | linky:'_blank'"></p>
       </div>
 
-      <!-- K-bits -->
+      <!-- Flash-Cards -->
       <div ng-show="post.type === 'K-bits'" class="flip card">
-        <div class="card k-bit-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped">
+        <!-- <img src="/img/light-bulb.png" alt="light-bulb" width="35" height="35"> -->
+        <!-- <i class="fa fa-lightbulb-o yellow" aria-hidden="true"></i> -->
+        <div class="card flash-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped">
             <div ng-hide="isFlipped" class="face front card">
-                 <!-- Question -->
-                <p class="k-card-content capitalize"><span>Question:</span><br>{{post.title}}<br>
-                  <span class="k-quest-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
-                </p>
+               <!-- Question -->
+               <i class="fa fa-question yellow" aria-hidden="true"></i>
+               <h5 class="flash-title">Question:</h5>
+               <p class="k-card-content" ng-bind-html="post.title | linky:'_blank'">
+               </p>
+               <span class="k-quest-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
             </div>
             <div ng-show="isFlipped" class="face back card">
               <!-- Answer -->
-               <p class="k-card-content capitalize">
-                <span>Answer:</span></h3><br>{{post.body}}<br>
-                <span class="k-ans-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
-               </p>
+              <i class="fa fa-lightbulb-o yellow" aria-hidden="true"></i>
+              <h5 class="flash-title">Answer:</h5>
+              <p class="k-card-content" ng-bind-html="post.body | linky:'_blank'">
+              </p>
+              <span class="k-ans-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
             </div>
         </div>
       </div>

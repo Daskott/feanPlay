@@ -8,6 +8,9 @@ tag-color = #2980b9;
 /********************************
 * All Pages
 ********************************/
+.navbar{
+  //background-color:#2c3e50;
+}
 h1{
   color:handleColor;
 }
@@ -38,15 +41,8 @@ p{
 .nav{
   font-family: 'Roboto Slab', serif;
 }
-.grey{
-  color:text-grey;
-}
-.back-grey{
-   background-color:text-grey;
-}
-.blue{
-  color:tag-color;
-}
+
+
 .theme:visited,
 .theme:focus,
 .theme:link,
@@ -61,6 +57,28 @@ p{
   background-color:#16a085;
 }
 
+.truncate {
+  max-height: 60%;
+  //white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/***************************
+colors
+*************************/
+.grey{
+  color:text-grey;
+}
+.back-grey{
+   background-color:text-grey;
+}
+.blue{
+  color:tag-color;
+}
+.yellow{
+  color:#f1c40f;
+}
 /********************************
 * Post Page
 ********************************/
@@ -165,9 +183,8 @@ p.post-body {
 }
 
 .flip {
-   max-width: 350px;
-   height: 200px;
-   max-height: 350px;
+   min-width: 200px;
+   max-width: 300px;
    padding:8px;
    text-align:center;
    margin-left:auto;
@@ -177,6 +194,8 @@ p.post-body {
 .flip .card {
   width: 100%;
   height: 100%;
+  padding:0;
+  margin:0;
 }
 .flip .card .face {
   width: 100%;
@@ -185,14 +204,12 @@ p.post-body {
   z-index: 2;
   font-size: 1em;
   text-align: center;
-  display: table;
-  text-align: center;
 }
 .flip .card .front {
   font-family: 'Roboto Slab', serif;
-  position: absolute;
+  text-shadow: 0.5px 0px text-grey;
   z-index: 1;
-  background: #009688;
+  background: #1abc9c;
   color: white;
   cursor: pointer;
 }
@@ -204,8 +221,17 @@ p.post-body {
    cursor: pointer;
 }
 .k-card-content{
-  display: table-cell;
-  vertical-align: middle;
+  /**/
+}
+.flash-card{
+   border:none;
+   padding:0;
+   margin:0;
+   text-align:center;
+}
+.flash-title{
+  padding:4px;
+  font-weight:500;
 }
 .tap-text{
    font-family: 'Roboto Slab', serif;
@@ -213,12 +239,10 @@ p.post-body {
 
 .k-ans-text,
 .k-quest-text{
-  font-size: 0.9em;
+  font-size: 0.75em;
   border-radius:4px;
-  padding:8px;
-  padding-right:8px;
-  padding-left:8px;
-  background-color:#c0392b;
+  padding:4px;
+  background-color:#00796B;
 }
 .k-ans-text{
   color:#fff;
