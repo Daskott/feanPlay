@@ -17,7 +17,7 @@ h1{
 .brand-name{
   color:handleColor;
 }
-body{background-color:back-grey}
+body{background-color:back-grey; }
 
 p{
   word-wrap: break-word;
@@ -30,6 +30,12 @@ p{
 }
 .inline-block{
   display:inline-block;
+}
+.nav{
+  font-family: 'Roboto Slab', serif;
+}
+.grey{
+  color:text-grey;
 }
 /********************************
 * Post Page
@@ -63,8 +69,24 @@ span.avatar{
 }
 .post-panel
 {
-  padding:16px;
+  padding:27px;
   background-color:dark-grey;
+}
+.post-text-body{
+   font-family: 'Roboto Slab', serif;
+    outline: 0;
+}
+
+.k-bit-panel{
+  margin-bottom:8px;
+  //background-color: #fff; 
+}
+.button-pane{
+  margin-top:5px;
+}
+.k-bit-title{
+  font-family: 'Roboto Slab', serif;
+  color:#000;
 }
 .button-pane{
     margin-top:8px;
@@ -85,6 +107,68 @@ p.post-body {  margin:0px; margin-top:-8px; word-wrap: break-word; font-size:1.2
   background-color:dark-grey;
   font-weight: bold;
   color: black;
+}
+.tags-div{
+   text-align:center;
+
+   .tags{
+      margin-right:2px;
+      background-color:#2980b9;
+    }
+}
+
+.flip {
+  -webkit-perspective: 800;
+   max-width: 350px;
+   min-width: 320px;
+   height: 200px;
+   padding:8px;
+   text-align:center;
+   margin-left:auto;
+   margin-right:auto;
+}
+.flip .card.flipped {
+  -webkit-transform: rotatex(-180deg);
+}
+.flip .card {
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: 0.5s;
+}
+
+.flip .card .face {
+  width: 100%;
+  height: 100%;
+  padding:8px;
+  position: absolute;
+  -webkit-backface-visibility: hidden ;
+  z-index: 2;
+  font-family: 'Roboto Slab', serif;
+  font-size: 1em;
+  text-align: center;
+  display: table;
+  text-align: center;
+}
+
+.k-card-content{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.flip .card .front {
+  position: absolute;
+  z-index: 1;
+  background: #34495e;
+  color: white;
+  cursor: pointer;
+}
+.flip .card .back {
+  -webkit-transform: rotatex(-180deg);
+    background: blue;
+    background: white;
+    color: black;
+    cursor: pointer;
 }
 
 /********************************
@@ -126,7 +210,7 @@ input[type="password"]
 {
   /*background: rgba(255,255,255,0.1);*/
   font-family: 'Roboto Slab', serif;
-  border: none;
+  //border: none;
   font-size: 16px;
   height: auto;
   margin: 0;

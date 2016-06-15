@@ -4,6 +4,8 @@ var app = angular.module('app');
 app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, UserService) {
 
   $scope.postSelection = 0;
+  $scope.question = null;
+  $scope.answer = null;
   
   //get reference to our posts in the database
   var databaseRef = firebase.database().ref().child('posts');
@@ -15,12 +17,50 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
   //save post to realTime db
   $scope.addPost = function () {
 
-      if($scope.postBody){
-        writeNewPost($scope.currentUser.uid, $scope.currentUser.username,$scope.currentUser.fullname,
-                     $scope.postBody, $scope.photo || "", $scope.currentUser.color);
+      //if post is Text
+      if($scope.postSelection === 0){
+
+        if($scope.postBody){
+          writeNewPost(
+            $scope.currentUser.uid, 
+            $scope.currentUser.username,
+            $scope.currentUser.fullname,
+            "Post-Title", 
+            $scope.postBody,
+            "Text",
+            "No-tags",
+            $scope.photo || "", 
+            $scope.currentUser.color
+          );
+
+          //clear input field
+          $scope.postBody = null;
+        }
       }
-      //clear input field
-      $scope.postBody = null;
+       //if post is K-bits
+      else if($scope.postSelection === 1){
+        
+        if($scope.question && $scope.answer){
+          writeNewPost(
+            $scope.currentUser.uid, 
+            $scope.currentUser.username,
+            $scope.currentUser.fullname,
+            $scope.question, 
+            $scope.answer,
+            "K-bits",
+            $scope.tags,
+            $scope.photo || "", 
+            $scope.currentUser.color
+          );
+          //clear input field
+          $scope.question = null;
+          $scope.answer = null;
+        }
+
+        console.log( $scope.tags);
+     }
+      
+    
   }
 
 
@@ -37,9 +77,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
       return UserService.isFollowing(username);
   }
 
-
-
-   $scope.setPostType = function(postSelection){
+  $scope.setPostType = function(postSelection){
     $scope.postSelection = postSelection;
   }
 
@@ -47,7 +85,14 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
     return $scope.postSelection === postSelection;
   }
 
-
+  $scope.tags = [
+            { text: 'Joke' },
+            { text: 'Science' },
+            { text: 'Music' },
+          ];
+  $scope.loadTags = function(query) {
+    return $http.get('/tags?query=' + query);
+  };
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (!user) {
@@ -93,7 +138,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
   return time.join(":") + " " + suffix;
 }
 
-  function writeNewPost(uid, username, fullname, body, image, color) {
+  function writeNewPost(uid, username, fullname, title, body, type, tags, image, color) {
     //get time of post
     var date = new Date();
     var currMonth = months[date.getMonth() + 1];
@@ -103,7 +148,10 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
     var postData = {
       username: username,
       fullname: fullname,
+      title: title,
       body: body,
+      type: type,
+      tags: tags,
       image: image,
       color: color,
       time: time,
@@ -122,3 +170,6 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
     updates['/user-posts/' + uid + '/' + newPostKey] = postData;
     return firebase.database().ref().update(updates);
 }
+
+
+

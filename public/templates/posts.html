@@ -2,42 +2,77 @@
 
   <form ng-submit="addPost()" class="card post-panel">
     
+   <!--  <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(0)}" ng-click="setPostType(0)">Text</button>
+      <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(1)}" ng-click="setPostType(1)">K-bits</button>
+    </div> -->
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active" ng-class="{'active': isSelectedPost(0)}"><a class="grey" ng-click="setPostType(0)">Text</a></li>
+      <li role="presentation" ng-class="{'active': isSelectedPost(1)}"><a class="grey" ng-click="setPostType(1)" >K-bits</a></li>
+    </ul>
     <!-- Text elements -->
-    <textarea ng-show="isSelectedPost(0)" placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control'>
+    <textarea ng-show="isSelectedPost(0)" placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control post-text-body'>
     </textarea>
 
     <!-- K-bits elements -->
-    <div ng-show="isSelectedPost(1)" class="form-group">
-       <input placeholder="Ask a Question ?" class="form-control input" type="text" ng-model="question">
-     </div>
-     <div ng-show="isSelectedPost(1)" class="form-group">
-       <input  placeholder="Provide the Answer :)" class="form-control input" type="text" ng-model="answer">
+    <div ng-show="isSelectedPost(1)" class="k-bit-panel">
+      <!-- <h6  class="card-title k-bit-title">Post a Knowledge Bit</h6> -->
+      <div  class="form-group">
+         <input placeholder="Ask a Question ?" class="form-control input" type="text" ng-model='question'>
+       </div>
+       <div class="form-group">
+         <input  placeholder="Provide the Answer :)" class="form-control input" type="text" ng-model='answer'>
+      </div>
+      <tags-input ng-model='tags'>
+        <auto-complete source="loadItems($query)"></auto-complete>
+      </tags-input>
+      <div class"tags-margin"><p> </p></div>
     </div>
-    <tags-input ng-show="isSelectedPost(1)" ng-model="tags"></tags-input>
-    <div class"tags-margin"><p> </p></div>
+    
 
     <!-- Button Pane -->
     <div class="button-pane">
       <button type="button" class="btn btn-success image-button"  ng-click="addPost()">
         Share
       </button>
-      
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(0)}" ng-click="setPostType(0)">Text</button>
-        <button type="button" class="btn btn-secondary" ng-class="{'selected': isSelectedPost(1)}" ng-click="setPostType(1)">K-bits</button>
-      </div>
     </div>
 
   </form>
 
+  <!-- List of Posts -->
   <ul class='list-group'>
     <li ng-if="isPostForMe(post.username, post.uid)" class='list-group-item post-item card' ng-repeat='post in posts | orderBy:"post.key":true'>
+
+      <!-- Avatar -->
       <span class="avatar glyphicon glyphicon-user " ng-style="{'background-color':post.color}"></span>
       <p>
-        <strong class="post-fullname" ng-style="{color:post.color}">{{post.fullname}}</strong> <span class="post-handle">@{{post.username}}<span> <br>
+        <strong class="post-fullname" ng-style="{color:post.color}">{{post.fullname}}</strong> <span class="  post-handle">@{{post.username}}<span> <br>
         <span class="post-time">{{post.time}}</span>
       </p>
-      <p class="post-body" ng-bind-html="post.body | linky:'_blank'"></p>
+
+      <!-- Text -->
+      <div ng-hide="post.type || post.type === 'K-bits'" class="text-post">
+        <p class="post-body" ng-bind-html="post.body | linky:'_blank'"></p>
+      </div>
+
+      <!-- K-bits -->
+      <div ng-show="post.type === 'K-bits'" class="flip card"> 
+        <div class="card k-bit-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped"> 
+            <div class="face front card">
+                 <!-- Question -->
+                <p class="k-card-content"><span>Question:</span><br>{{post.title}}</p> 
+            </div> 
+            <div class="face back card"> 
+              <!-- Answer -->
+               <p class="k-card-content"><span>Answer:</span><br>{{post.body}}</p>
+            </div> 
+        </div> 
+      </div> 
+      <div class="tags-div">
+        <span ng-show="post.type === 'K-bits'"ng-repeat='tag in post.tags'class="label tags">
+        {{tag.text}}
+      </span>
+      </div>
     </li>
   </ul>
 
