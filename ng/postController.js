@@ -6,7 +6,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
   $scope.postSelection = 0;
   $scope.question = null;
   $scope.answer = null;
-  
+
   //get reference to our posts in the database
   var databaseRef = firebase.database().ref().child('posts');
 
@@ -22,14 +22,14 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
 
         if($scope.postBody){
           writeNewPost(
-            $scope.currentUser.uid, 
+            $scope.currentUser.uid,
             $scope.currentUser.username,
             $scope.currentUser.fullname,
-            "Post-Title", 
+            "Post-Title",
             $scope.postBody,
             "Text",
             "No-tags",
-            $scope.photo || "", 
+            $scope.photo || "",
             $scope.currentUser.color
           );
 
@@ -39,31 +39,44 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
       }
        //if post is K-bits
       else if($scope.postSelection === 1){
-        
+
         if($scope.question && $scope.answer){
           writeNewPost(
-            $scope.currentUser.uid, 
+            $scope.currentUser.uid,
             $scope.currentUser.username,
             $scope.currentUser.fullname,
-            $scope.question, 
+            $scope.question,
             $scope.answer,
             "K-bits",
             $scope.tags,
-            $scope.photo || "", 
+            $scope.photo || "",
             $scope.currentUser.color
           );
           //clear input field
           $scope.question = null;
           $scope.answer = null;
         }
-
-        console.log( $scope.tags);
      }
-      
-    
+
+
   }
 
-
+  $scope.isValidPost = function(){
+    //if it's a 'Text' post
+    if($scope.postSelection === 0){
+      if($scope.postBody)
+        return true;
+      else
+        return false;
+    }
+    //if it's a 'k-bit' post
+    else if($scope.postSelection === 1){
+      if($scope.question && $scope.answer)
+        return true;
+      else
+        return false;
+    }
+  }
 
   //see only posts from users ur following
   $scope.isPostForMe = function(username, userid){
@@ -76,13 +89,13 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
       // //see posts of users ur following
       return UserService.isFollowing(username);
   }
-  
+
   $scope.toggleVote = function(postId, userId){
 
     var postRef = firebase.database().ref().child('posts/'+postId);
     //var userPostRef = firebase.database().ref().child('user-posts/' + userId+'/'+postId);
     var currUserId = $scope.currentUser.uid;
-    
+
     //update public posts
     postRef.transaction(function(post) {
       if (post.votes && post.votes[currUserId]) {
@@ -95,7 +108,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
         }
         post.votes[currUserId] = true;
       }
-      
+
       //update specific user's post 'voteCount' & votes
       firebase.database().ref()
       .child('user-posts/' + userId+'/'+postId+'/votes/'+currUserId)
@@ -109,7 +122,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
     });
   }
 
-  $scope.votedThisPost = function(postVotes){ 
+  $scope.votedThisPost = function(postVotes){
       if(postVotes && postVotes[$scope.currentUser.uid])
         return true;
       else
@@ -126,7 +139,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
 
   $scope.tags = [
             { text: 'Joke' },
-            { text: 'Science' },
+            { text: 'Riddle' },
             { text: 'Music' },
           ];
   $scope.loadTags = function(query) {
@@ -210,6 +223,3 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
     updates['/user-posts/' + uid + '/' + newPostKey] = postData;
     return firebase.database().ref().update(updates);
 }
-
-
-

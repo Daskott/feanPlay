@@ -4,9 +4,11 @@
 
     <ul class="nav nav-tabs">
       <li role="presentation" class="active" ng-class="{'active': isSelectedPost(0)}"><a class="grey" ng-click="setPostType(0)">Text</a></li>
-      <li role="presentation" ng-class="{'active': isSelectedPost(1)}"><a class="grey" ng-click="setPostType(1)" >K-bits</a></li>
+      <li role="presentation" ng-class="{'active': isSelectedPost(1)}">
+        <a class="grey" ng-click="setPostType(1)" ><span class="glyphicon glyphicon-flash"></span>Card</a>
+      </li>
     </ul>
-    
+
     <!-- Text elements -->
     <div ng-show="isSelectedPost(0)" class="text-panel">
       <textarea placeholder="What's on ur mind homie ?" ng-model='postBody' class='form-control post-text-body'>
@@ -27,11 +29,11 @@
       </tags-input>
       <div class"tags-margin"><p> </p></div>
     </div>
-    
+
 
     <!-- Button Pane -->
     <div class="button-pane">
-      <button type="button" class="btn btn-success image-button"  ng-click="addPost()">
+      <button type="button" class="btn btn-success image-button"  ng-class="{disabled:!isValidPost()}" ng-click="addPost()">
         Share
       </button>
     </div>
@@ -50,28 +52,28 @@
       </p>
 
       <!-- Text -->
-      <div ng-hide="post.type || post.type === 'K-bits'" class="text-post">
+      <div ng-hide="post.type === 'K-bits'" class="text-post">
         <p class="post-body" ng-bind-html="post.body | linky:'_blank'"></p>
       </div>
 
       <!-- K-bits -->
-      <div ng-show="post.type === 'K-bits'" class="flip card"> 
-        <div class="card k-bit-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped"> 
+      <div ng-show="post.type === 'K-bits'" class="flip card">
+        <div class="card k-bit-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped">
             <div ng-hide="isFlipped" class="face front card">
                  <!-- Question -->
                 <p class="k-card-content"><span>Question:</span><br>{{post.title}}<br>
                   <span class="k-quest-text glyphicon glyphicon-hand-up"> Tap</span>
                 </p>
-            </div> 
-            <div ng-show="isFlipped" class="face back card"> 
+            </div>
+            <div ng-show="isFlipped" class="face back card">
               <!-- Answer -->
                <p class="k-card-content">
                 <span>Answer:</span></h3><br>{{post.body}}<br>
                 <span class="k-ans-text glyphicon glyphicon-hand-up"> Tap</span>
                </p>
             </div>
-        </div> 
-      </div> 
+        </div>
+      </div>
       <div class="tags-div">
         <span ng-show="post.type === 'K-bits'"ng-repeat='tag in post.tags'class="label tags">
         {{tag.text}}

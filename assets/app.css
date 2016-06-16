@@ -135,6 +135,7 @@ p.post-body {
 .flip {
   max-width: 350px;
   height: 200px;
+  max-height: 350px;
   padding: 8px;
   text-align: center;
   margin-left: auto;
