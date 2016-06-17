@@ -34,8 +34,8 @@ p {
 .back-grey {
   background-color: #757575;
 }
-.yellow {
-  color: #f1c40f;
+.blue {
+  color: #2980b9;
 }
 /********************************
 * Post Page
@@ -71,6 +71,7 @@ span.avatar {
 }
 .post-text-body {
   font-family: 'Roboto Slab', serif;
+  box-shadow: 0 0px 0 rgba(0,0,0,0.03) inset;
   outline: 0;
 }
 .text-panel {
@@ -230,6 +231,6 @@ input[type="password"] {
   background-color: #fff;
   color: #000;
   border-radius: 5px;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  box-shadow: 0 0px 0 rgba(0,0,0,0.03) inset;
   margin-bottom: 30px;
 }

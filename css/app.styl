@@ -3,6 +3,7 @@ back-grey = #EEEEEE
 dark-grey = #E0E0E0
 text-grey = #757575
 purple = #303F9F;
+tag-color = #2980b9;
 
 /********************************
 * All Pages
@@ -40,8 +41,8 @@ p{
 .back-grey{
    background-color:text-grey;
 }
-.yellow{
-  color:#f1c40f;
+.blue{
+  color:tag-color;
 }
 /********************************
 * Post Page
@@ -80,7 +81,8 @@ span.avatar{
 }
 .post-text-body{
    font-family: 'Roboto Slab', serif;
-    outline: 0;
+   box-shadow: 0 0px 0 rgba(0,0,0,0.03) inset;
+   outline: 0;
 }
 
 .text-panel{
@@ -141,7 +143,7 @@ p.post-body {
 
    .tags{
       margin-right:2px;
-      background-color:#2980b9;
+      background-color:tag-color;
     }
 }
 
@@ -252,6 +254,6 @@ input[type="password"]
   background-color:#fff;
   color: black;
   border-radius: 5px;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  box-shadow: 0 0px 0 rgba(0,0,0,0.03) inset;
   margin-bottom: 30px;
 }

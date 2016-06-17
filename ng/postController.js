@@ -1,7 +1,7 @@
 
 var app = angular.module('app');
 
-app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, UserService) {
+app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsService, UserService) {
 
   $scope.postSelection = 0;
   $scope.question = null;
@@ -138,12 +138,13 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, PostsService, Use
   }
 
   $scope.tags = [
-            { text: 'Joke' },
-            { text: 'Riddle' },
-            { text: 'Music' },
-          ];
+    { "text": "Joke" },
+    { "text": "Riddle" },
+    { "text": "Science" },
+  ];
+
   $scope.loadTags = function(query) {
-    return $http.get('/tags?query=' + query);
+    return $http.get('tags.json');
   };
 
   firebase.auth().onAuthStateChanged(function(user) {

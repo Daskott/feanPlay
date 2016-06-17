@@ -15,7 +15,7 @@
       </textarea>
     </div>
 
-    <!-- K-bits elements -->
+    <!-- K-bits[Flash Card] elements -->
     <div ng-show="isSelectedPost(1)" class="k-bit-panel">
       <!-- <h6  class="card-title k-bit-title">Post a Knowledge Bit</h6> -->
       <div  class="form-group">
@@ -24,8 +24,8 @@
        <div class="form-group">
          <input  placeholder="Provide the Answer :)" class="form-control input" type="text" ng-model='answer'>
       </div>
-      <tags-input ng-model='tags'>
-        <auto-complete source="loadItems($query)"></auto-complete>
+      <tags-input ng-model="tags" add-on-paste="true">
+        <auto-complete source="loadTags($query)"></auto-complete>
       </tags-input>
       <div class"tags-margin"><p> </p></div>
     </div>
@@ -82,9 +82,9 @@
 
       <!-- Likes -->
       <div id="vote-div">
-        <span class="post-vote-button glyphicon glyphicon-thumbs-up" ng-class='{yellow: votedThisPost(post.votes)}' ng-click="toggleVote(post.key, post.uid)">
+        <span class="post-vote-button glyphicon glyphicon-thumbs-up" ng-class='{blue: votedThisPost(post.votes)}' ng-click="toggleVote(post.key, post.uid)">
         </span>
-        <span id="vote-count">{{post.voteCount}}</span>
+        <span ng-class='{blue: votedThisPost(post.votes)}' id="vote-count">{{post.voteCount}}</span>
       </div>
     </li>
   </ul>
