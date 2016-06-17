@@ -2,13 +2,13 @@
 * All Pages
 ********************************/
 h1 {
-  color: #008000;
+  color: #2980b9;
 }
 .marginTop {
   margin: 10px;
 }
 .brand-name {
-  color: #008000;
+  color: #2980b9;
 }
 body {
   background-color: #eee;
@@ -54,7 +54,7 @@ p {
 }
 span.avatar {
   border-radius: 25px;
-  border: 0px solid #008000;
+  border: 0px solid #2980b9;
   padding: 10px;
   margin-right: 4px;
   margin-bottom: 8px;
@@ -212,7 +212,7 @@ p.post-body {
   text-align: center;
 }
 .forgot-link {
-  color: #008000;
+  color: #2980b9;
 }
 .forgot-button {
   font-size: 0.85em;

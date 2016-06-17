@@ -140,7 +140,6 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
   $scope.tags = [
     { "text": "Joke" },
     { "text": "Riddle" },
-    { "text": "Science" },
   ];
 
   $scope.loadTags = function(query) {
