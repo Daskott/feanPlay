@@ -1,4 +1,4 @@
-handleColor = #2980b9
+handleColor = #1abc9c
 back-grey = #EEEEEE
 dark-grey = #E0E0E0
 text-grey = #757575
@@ -44,6 +44,20 @@ p{
 .blue{
   color:tag-color;
 }
+.theme:visited,
+.theme:focus,
+.theme:link,
+.theme:hover,
+.theme{
+  color:#fff;
+  background-color:handleColor;
+}
+
+.theme:hover{
+  color:#fff;
+  background-color:#16a085;
+}
+
 /********************************
 * Post Page
 ********************************/
@@ -229,6 +243,9 @@ p.post-body {
   margin-left:auto;
   margin-right:auto;
   text-align:center;
+  .signup-button{
+    color:handleColor;
+  }
 }
 
 .forgot-link{
