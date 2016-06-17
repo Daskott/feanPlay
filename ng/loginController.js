@@ -6,10 +6,10 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $location, UserService
 
   $scope.login = function (email, password) {
 
-    //if(email == null || password == null)return;
-
     $scope.dataLoading = true;
     $scope.errorMessage = null;
+
+    if(email == null || password == null)$scope.dataLoading =false;
 
     auth.signInWithEmailAndPassword(email, password)
     .then(function(user){
