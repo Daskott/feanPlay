@@ -61,15 +61,15 @@
         <div class="card k-bit-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped">
             <div ng-hide="isFlipped" class="face front card">
                  <!-- Question -->
-                <p class="k-card-content"><span>Question:</span><br>{{post.title}}<br>
-                  <span class="k-quest-text glyphicon glyphicon-hand-up"> Tap</span>
+                <p class="k-card-content capitalize"><span>Question:</span><br>{{post.title}}<br>
+                  <span class="k-quest-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
                 </p>
             </div>
             <div ng-show="isFlipped" class="face back card">
               <!-- Answer -->
-               <p class="k-card-content">
+               <p class="k-card-content capitalize">
                 <span>Answer:</span></h3><br>{{post.body}}<br>
-                <span class="k-ans-text glyphicon glyphicon-hand-up"> Tap</span>
+                <span class="k-ans-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
                </p>
             </div>
         </div>
