@@ -92,6 +92,30 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
     $cookieStore.put('globals', $rootScope.globals);
   }
 
+
+  svc.notify = function(senderId, senderUsername, message, recepientId, time, itemId){
+    
+    var notification = {
+                            senderId: senderId,
+                            senderUsername: senderUsername,
+                            message: message,
+                            key: "",
+                            seen:false,
+                            time:time,
+                            itemId:itemId,
+                            }
+
+     //get key
+     var key = firebase.database().ref('users/' + recepientId+'/notifications').push().key
+     notification.key = key;
+     
+    //update notification
+    firebase.database().ref()
+    .child('users/' + recepientId+'/notifications/'+key)
+    .set(notification);
+
+  }
+
 });
 
 /*********************************************

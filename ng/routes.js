@@ -14,6 +14,7 @@
           .when('/register', { controller: 'RegisterCtrl', templateUrl: 'register.html' })
           .when('/forgotPassword', { controller: 'ForgotPasswordCtrl', templateUrl: 'forgotPassword.html' })
           .when('/connect', { controller: 'ConnectCtrl', templateUrl: 'connect.html' })
+          .when('/notification', { controller: 'NotificationCtrl', templateUrl: 'notification.html' })
           .when('/', { controller: 'LoginCtrl', templateUrl: 'login.html' })
           .otherwise({ redirectTo: '/' });
     }

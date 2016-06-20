@@ -95,7 +95,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
     var postRef = firebase.database().ref().child('posts/'+postId);
     //var userPostRef = firebase.database().ref().child('user-posts/' + userId+'/'+postId);
     var currUserId = $scope.currentUser.uid;
-
+    var currentUsername = $scope.currentUser.username;
     //update public posts
     postRef.transaction(function(post) {
       if (post.votes && post.votes[currUserId]) {
@@ -107,6 +107,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
           post.votes = {};
         }
         post.votes[currUserId] = true;
+        $scope.notify(" liked your post", post.uid, post.key);
       }
 
       //update specific user's post 'voteCount' & votes
@@ -117,7 +118,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
       firebase.database().ref()
       .child('user-posts/' + userId+'/'+postId+'/voteCount')
       .set(post.voteCount);
-
+      
       return post;
     });
   }
@@ -127,6 +128,17 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
         return true;
       else
         return false;
+  }
+
+  $scope.notify = function(message, recepientId, postId){
+    UserService.notify(
+      $scope.currentUser.uid, 
+      $scope.currentUser.username, 
+      message, 
+      recepientId,
+      timeOffEvent(),
+      postId
+      );
   }
 
   $scope.setPostType = function(postSelection){
@@ -190,11 +202,20 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
   return time.join(":") + " " + suffix;
 }
 
-  function writeNewPost(uid, username, fullname, title, body, type, tags, image, color) {
+function timeOffEvent(){
+
+  var date = new Date();
+  var currMonth = months[date.getMonth() + 1];
+  var time = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+timeStamp();
+
+  return time;
+}
+
+function writeNewPost(uid, username, fullname, title, body, type, tags, image, color) {
     //get time of post
     var date = new Date();
     var currMonth = months[date.getMonth() + 1];
-    var time = currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+timeStamp();
+    var time = timeOffEvent();//currMonth + " " + date.getDate() + " " + date.getFullYear()+" - "+timeStamp();
 
     // A post entry.
     var postData = {
