@@ -35,10 +35,11 @@
       <button type="button" class="btn image-button theme"  ng-class="{disabled:!isValidPost()}" ng-click="addPost()">
         Share
       </button>
-      <input type="file" id="input">
-      <!-- <input type="file" id="file" ng-model="upload.file"> -->
-      <!-- <input type="file" ng-model="upload.file"/> -->
-      <!-- <input type="text" ng-model="upload.file"/> -->
+     <div ng-show="isSelectedPost(0)" class="fileUpload btn btn-default">
+        <i class="fa fa-camera" aria-hidden="true"> <span class="label label-primary">beta</span></i>
+        <input type="file" class="upload" id="input" onchange="angular.element(this).scope().fileNameChanged(this)" accept="image/*"/>
+      </div>
+      <span class="glyphicon glyphicon-paperclip wrap" ng-show="selectedFileName">{{selectedFileName}}</span>
     </div>
 
   </form>
@@ -56,8 +57,9 @@
 
       <!-- Text -->
       <div ng-hide="post.type === 'K-bits'" class="text-post">
-        <img height="50%" width="50%" ng-if="post.image" ng-src="{{post.image}}">
-        <p ng-if="post.image"></p>
+        <div ng-if="post.image" class="image-div">
+          <img height="40%" width="100%" ng-src="{{post.image}}">
+        </div>
         <p class="post-body" ng-bind-html="post.body | linky:'_blank'"></p>
       </div>
 

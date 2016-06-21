@@ -15,6 +15,9 @@
 
       <!-- Text -->
       <div ng-hide="post.type === 'K-bits'" class="text-post">
+         <div ng-if="post.image" class="image-div">
+          <img height="40%" width="100%" ng-src="{{post.image}}">
+        </div>
         <p class="post-body" ng-bind-html="post.body | linky:'_blank'"></p>
       </div>
 

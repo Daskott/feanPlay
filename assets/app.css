@@ -1,9 +1,6 @@
 /********************************
 * All Pages
 ********************************/
-h1 {
-  color: #1abc9c;
-}
 .marginTop {
   margin: 10px;
 }
@@ -14,6 +11,9 @@ body {
   background-color: #eee;
 }
 p {
+  word-wrap: break-word;
+}
+.wrap {
   word-wrap: break-word;
 }
 .navbar {
@@ -69,6 +69,9 @@ colors
 .red {
   background-color: #c0392b;
 }
+.red-color {
+  color: #c0392b;
+}
 /********************************
 * Post Page
 ********************************/
@@ -108,6 +111,10 @@ span.avatar {
 }
 .text-panel {
   padding-top: 16px;
+}
+.image-div {
+  text-align: center;
+  margin-bottom: 16px;
 }
 .k-bit-panel {
   margin-bottom: 8px;
@@ -275,4 +282,23 @@ input[type="password"] {
   border-radius: 5px;
   box-shadow: 0 0px 0 rgba(0,0,0,0.03) inset;
   margin-bottom: 30px;
+}
+/**********************************
+File upload
+************************************/
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  background-color: #e0e0e0;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
 }

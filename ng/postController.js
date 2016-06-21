@@ -6,11 +6,8 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
   $scope.postSelection = 0;
   $scope.question = null;
   $scope.answer = null;
+  $scope.selectedFileName = "";
   
-  //apparently you need to use an object & not a primitive 
-  //to store filechooser value, else it won't work /0\
-  $scope.upload = {};
-  //$scope.upload.file = "C:\\Users\\cottee2\\Desktop\\flex.png";
 
   //get reference to our posts in the database
   var databaseRef = firebase.database().ref().child('posts');
@@ -33,11 +30,13 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
 
     //clear image selection
     document.getElementById('input').value = '';
+    $scope.selectedFileName = "";
 
 
     //upload img if any 1st
     $scope.handleFileUpload(file, newPostKey, function(error, imgUrl){
       
+      //****HANDLE ERROR********//
       if(file && error)
           console.log("there was an error uploading your image")
       
@@ -119,7 +118,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
         }
       }, function(error) {
         // Handle unsuccessful uploads
-        callback(error, null);
+        callback(error, "");
       }, function() {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
@@ -166,7 +165,6 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
   $scope.toggleVote = function(postId, userId){
 
     var postRef = firebase.database().ref().child('posts/'+postId);
-    //var userPostRef = firebase.database().ref().child('user-posts/' + userId+'/'+postId);
     var currUserId = $scope.currentUser.uid;
     var currentUsername = $scope.currentUser.username;
     //update public posts
@@ -233,6 +231,18 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
   $scope.loadTags = function(query) {
     return $http.get('tags.json');
   };
+
+  //called when selected filename changes
+  $scope.fileNameChanged = function() {
+    $scope.$apply(function() {
+      if(document.getElementById('input').files[0])
+        $scope.selectedFileName = document.getElementById('input').files[0].name;
+      else
+        $scope.selectedFileName = "";
+      console.log("Name: "+$scope.selectedFileName);
+    });
+  }
+
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (!user) {
