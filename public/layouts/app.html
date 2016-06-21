@@ -44,6 +44,7 @@
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
+            <span ng-show="notificatonCount > 0" class="badge red">{{notificatonCount}}</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -60,13 +61,12 @@
 
         <!--  User dropdown -->      
         <ul ng-if='currentUser' class="nav navbar-nav navbar-right">
-          <!-- <li> <a href=""><i class="fa fa-bell-o" aria-hidden="true"><span ng-if="unSeenNotification() > 0" class="badge red">{{unSeenNotification()}}</span></i></a> </li>  -->
-
+        
           <!-- Notifications -->
-          <li class="dropdown">
-            <a ng-click="getNotificationPosts()" class="dropdown-toggle capitalize" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <li class="dropdown" id="bs-example-navbar-collapse-2">
+            <a ng-click="seeNotification()" class="dropdown-toggle capitalize" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-bell-o" aria-hidden="true">
-                <span ng-if="unSeenNotification() > 0" class="badge red">{{unSeenNotification()}}</span>
+                <span ng-show="notificatonCount > 0" class="badge red">{{notificatonCount}}</span>
               </i>
             </a>
             <ul class="dropdown-menu">
@@ -78,6 +78,12 @@
                   {{notification.message}}<br>
                   <span class="post-time">{{notification.time}}</span>
                 </p>               
+                <br>
+                 <div class="dropdown-divider"></div>
+              </a>
+              <!-- placeholder -->
+              <a ng-hide="notifications.length > 0" href="" class="dropdown-item">  
+                <span class="capitalize">No New Notification</span>
                 <br>
                  <div class="dropdown-divider"></div>
               </a>

@@ -48,6 +48,9 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.unseen-notification {
+  background-color: #b2dfdb;
+}
 /***************************
 colors
 *************************/

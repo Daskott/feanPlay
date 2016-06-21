@@ -17,12 +17,11 @@
 
     <!-- K-bits[Flash Card] elements -->
     <div ng-show="isSelectedPost(1)" class="k-bit-panel">
-      <!-- <h6  class="card-title k-bit-title">Post a Knowledge Bit</h6> -->
       <div  class="form-group">
-         <input placeholder="Ask a Question ?" class="form-control input" type="text" ng-model='question'>
+         <input placeholder="Front of the card ?" class="form-control input" type="text" ng-model='question'>
        </div>
        <div class="form-group">
-         <input  placeholder="Provide the Answer :)" class="form-control input" type="text" ng-model='answer'>
+         <input  placeholder="Back of the card :)" class="form-control input" type="text" ng-model='answer'>
       </div>
       <tags-input ng-model="tags" add-on-paste="true">
         <auto-complete source="loadTags($query)"></auto-complete>
@@ -58,13 +57,11 @@
 
       <!-- Flash-Cards -->
       <div ng-show="post.type === 'K-bits'" class="flip card">
-        <!-- <img src="/img/light-bulb.png" alt="light-bulb" width="35" height="35"> -->
-        <!-- <i class="fa fa-lightbulb-o yellow" aria-hidden="true"></i> -->
         <div class="card flash-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped">
             <div ng-hide="isFlipped" class="face front card">
                <!-- Question -->
                <i class="fa fa-question yellow" aria-hidden="true"></i>
-               <h5 class="flash-title">Question:</h5>
+               <h5 class="flash-title">Front:</h5>
                <p class="k-card-content" ng-bind-html="post.title | linky:'_blank'">
                </p>
                <span class="k-quest-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
@@ -72,7 +69,7 @@
             <div ng-show="isFlipped" class="face back card">
               <!-- Answer -->
               <i class="fa fa-lightbulb-o yellow" aria-hidden="true"></i>
-              <h5 class="flash-title">Answer:</h5>
+              <h5 class="flash-title">Back:</h5>
               <p class="k-card-content" ng-bind-html="post.body | linky:'_blank'">
               </p>
               <span class="k-ans-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>

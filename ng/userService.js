@@ -102,7 +102,8 @@ app.service('UserService', function ($http,   $rootScope, $cookieStore) {
                             key: "",
                             seen:false,
                             time:time,
-                            itemId:itemId,
+                            itemId:itemId
+                            //type: POST/FOLLOWER/E.T.C
                             }
 
      //get key

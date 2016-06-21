@@ -1,7 +1,21 @@
 angular.module('app')
 .controller('NotificationCtrl', function ($scope, $rootScope, $firebaseArray, $location, UserService) {
 
-    //call 'getnotifyPost' if posts is empty & url is visited
-    //set all notifications to seen = true
+    
+    //NEEDS MAJOR IMPROVEMENT, ONCE YOU REFRESH PAGE NOTIFICATIONS ARE DELETED
+    $scope.$on('$locationChangeStart', function (event, next, current) {
+      //delete notification, once you leave page 
+      var userId = $scope.currentUser.uid;
+      
+      firebase.database().ref()
+      .child('users/'+ userId+'/notifications')
+      .set(null);
 
+      $scope.notificationPosts = [];
+      $scope.notifications = [];
+      $scope.seenNotification = true;
+    });
+   
+     
+  
  });

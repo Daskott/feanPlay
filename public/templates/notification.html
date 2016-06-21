@@ -1,10 +1,10 @@
 <div class='container post-container' >
 
-  
+  <span ng-init="getNotificationPosts()">
 
   <!-- List of Notifications -->
   <ul class='list-group'>
-    <li class='list-group-item post-item card' ng-repeat='post in notificationPosts | orderBy:"post.key":true'>
+    <li class='list-group-item post-item card' ng-repeat='post in notificationPosts track by $index'>
 
       <!-- Avatar -->
       <span class="avatar glyphicon glyphicon-user " ng-style="{'background-color':post.color}"></span>
@@ -20,13 +20,12 @@
 
       <!-- Flash-Cards -->
       <div ng-show="post.type === 'K-bits'" class="flip card">
-        <!-- <img src="/img/light-bulb.png" alt="light-bulb" width="35" height="35"> -->
-        <!-- <i class="fa fa-lightbulb-o yellow" aria-hidden="true"></i> -->
+       
         <div class="card flash-card" ng-class="{'flipped':isFlipped}" ng-click="isFlipped = !isFlipped">
             <div ng-hide="isFlipped" class="face front card">
                <!-- Question -->
                <i class="fa fa-question yellow" aria-hidden="true"></i>
-               <h5 class="flash-title">Question:</h5>
+               <h5 class="flash-title">Front:</h5>
                <p class="k-card-content" ng-bind-html="post.title | linky:'_blank'">
                </p>
                <span class="k-quest-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
@@ -34,7 +33,7 @@
             <div ng-show="isFlipped" class="face back card">
               <!-- Answer -->
               <i class="fa fa-lightbulb-o yellow" aria-hidden="true"></i>
-              <h5 class="flash-title">Answer:</h5>
+              <h5 class="flash-title">Back:</h5>
               <p class="k-card-content" ng-bind-html="post.body | linky:'_blank'">
               </p>
               <span class="k-ans-text glyphicon glyphicon-hand-up"><span class="tap-text">Tap</span></span>
@@ -49,9 +48,18 @@
 
       <!-- Likes -->
       <div id="vote-div">
-        <span class="post-vote-button glyphicon glyphicon-thumbs-up" ng-class='{blue: votedThisPost(post.votes)}' ng-click="toggleVote(post.key, post.uid)">
+        <strong class="capitalize"> {{notifications[$index].senderUsername}}</strong>
+        <span class="post-vote-button glyphicon glyphicon-thumbs-up">
         </span>
-        <span ng-class='{blue: votedThisPost(post.votes)}' id="vote-count">{{post.voteCount}}</span>
+        <span>
+          {{notifications[$index].message}}
+        </span>
+      </div>
+    </li>
+
+    <li ng-show="notifications.length <= 0" class='list-group-item post-item card' >
+      <div class="text-post">
+        <h4 class="post-body" ><i class="fa fa-bell-o" aria-hidden="true"></i> No new notifications</h4>
       </div>
     </li>
   </ul>

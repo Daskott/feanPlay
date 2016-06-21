@@ -48,7 +48,7 @@
             }
 
             // redirect to home page if logged in and trying to access login page
-            if (loggedIn && $location.path() == '/') {
+            if (loggedIn && $location.path() === '/') {
                 $location.path('/home');
             }
 
