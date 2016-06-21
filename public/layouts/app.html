@@ -59,9 +59,9 @@
             <li ng-class="{'active': isSelectedNav(1)}" ng-click="setNav(1)" ng-show='currentUser'><a href="/#/connect">Connect</a></li>
           </ul>
 
-        <!--  User dropdown -->      
+        <!--  User dropdown -->
         <ul ng-if='currentUser' class="nav navbar-nav navbar-right">
-        
+
           <!-- Notifications -->
           <li class="dropdown" id="bs-example-navbar-collapse-2">
             <a ng-click="seeNotification()" class="dropdown-toggle capitalize" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -72,29 +72,29 @@
             <ul class="dropdown-menu">
 
               <!-- Iterate through notifications ALSO SHOW ONLY NOTIFICATION NOT SEEN-->
-              <a href="/#/notification" class="dropdown-item" href="" ng-repeat="notification in notifications">       
+              <a href="/#/notification" class="dropdown-item" href="" ng-repeat="notification in notifications">
                 <p class="notification">
                   <span class="capitalize">{{notification.senderUsername}}</span>
                   {{notification.message}}<br>
                   <span class="post-time">{{notification.time}}</span>
-                </p>               
+                </p>
                 <br>
                  <div class="dropdown-divider"></div>
               </a>
               <!-- placeholder -->
-              <a ng-hide="notifications.length > 0" href="" class="dropdown-item">  
+              <a ng-hide="notifications.length > 0" href="" class="dropdown-item">
                 <span class="capitalize">No New Notification</span>
                 <br>
                  <div class="dropdown-divider"></div>
               </a>
-            
+
             </ul>
           </li>
 
           <li class="dropdown">
             <a class="dropdown-toggle capitalize" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{currentUser.username}}</a>
             <ul class="dropdown-menu">
-              <a class="dropdown-item" href="/#/home">Settings</a>
+              <!-- <a class="dropdown-item" href="/#/home">Settings</a> -->
               <div class="dropdown-divider"></div>
               <a ng-click="logout()" class="dropdown-item" href="#">Logout</a>
             </ul>

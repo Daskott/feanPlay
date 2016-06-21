@@ -180,7 +180,10 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
           post.votes = {};
         }
         post.votes[currUserId] = true;
-        $scope.notify(" liked your post", post.uid, post.key);
+
+        //if you like your post, no need to notify yourself
+        if($scope.currentUser.uid !== post.uid)
+          $scope.notify(" liked your post", post.uid, post.key);
       }
 
       //update specific user's post 'voteCount' & votes
@@ -191,7 +194,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
       firebase.database().ref()
       .child('user-posts/' + userId+'/'+postId+'/voteCount')
       .set(post.voteCount);
-      
+
       return post;
     });
   }
@@ -205,9 +208,9 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
 
   $scope.notify = function(message, recepientId, postId){
     UserService.notify(
-      $scope.currentUser.uid, 
-      $scope.currentUser.username, 
-      message, 
+      $scope.currentUser.uid,
+      $scope.currentUser.username,
+      message,
       recepientId,
       timeOffEvent(),
       postId
