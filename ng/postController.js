@@ -6,31 +6,56 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
   $scope.postSelection = 0;
   $scope.question = null;
   $scope.answer = null;
+  
+  //apparently you need to use an object & not a primitive 
+  //to store filechooser value, else it won't work /0\
+  $scope.upload = {};
+  //$scope.upload.file = "C:\\Users\\cottee2\\Desktop\\flex.png";
 
   //get reference to our posts in the database
   var databaseRef = firebase.database().ref().child('posts');
 
   //get post & update UI
   $scope.posts = $firebaseArray(databaseRef);
-
-
+  
+  //NEEDS IMPROVEMENT, UPLOAD IMAGE SEPERATELY & SHOW USER PROGRESS
   //save post to realTime db
   $scope.addPost = function () {
 
+    var file = document.getElementById('input').files[0];
+    var text = $scope.postBody;
+    // Get a key for a new Post
+    var newPostKey = firebase.database().ref('posts').push().key;
+    
+    //give the illusion that its fast..lol
+    //clear text of post
+    $scope.postBody = null;
+
+    //clear image selection
+    document.getElementById('input').value = '';
+
+
+    //upload img if any 1st
+    $scope.handleFileUpload(file, newPostKey, function(error, imgUrl){
+      
+      if(file && error)
+          console.log("there was an error uploading your image")
+      
       //if post is Text
       if($scope.postSelection === 0){
 
-        if($scope.postBody){
+        if(text){
           writeNewPost(
             $scope.currentUser.uid,
             $scope.currentUser.username,
             $scope.currentUser.fullname,
             "Post-Title",
-            $scope.postBody,
+            text,
             "Text",
             "No-tags",
-            $scope.photo || "",
-            $scope.currentUser.color
+            imgUrl,
+            $scope.currentUser.color,
+            newPostKey
           );
 
           //clear input field
@@ -50,15 +75,63 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
             "K-bits",
             $scope.tags,
             $scope.photo || "",
-            $scope.currentUser.color
+            $scope.currentUser.color,
+            newPostKey
           );
           //clear input field
           $scope.question = null;
           $scope.answer = null;
         }
      }
+    });
+  }
 
+  $scope.handleFileUpload = function(file, key, callback){
 
+    if(file){
+      
+      console.log("File: "+file.name);
+      // Create a root reference
+      var storageRef = firebase.storage().ref('posts_photos/'+$scope.currentUser.uid);
+      //var key = storageRef.push().key;
+
+      // Create a reference to 'img.jpg' bt use post 'key' 
+      // as name/id, so each upload is unique
+      var photoRef = storageRef.child(key);
+
+      var uploadTask = photoRef.put(file);
+
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on('state_changed', function(snapshot){
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+             break;
+        }
+      }, function(error) {
+        // Handle unsuccessful uploads
+        callback(error, null);
+      }, function() {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        var downloadURL = uploadTask.snapshot.downloadURL;
+        console.log("Done: "+downloadURL);
+        callback(null, downloadURL);
+        });
+      }
+      else{
+        //callback with no imageUrl & error
+        callback(null, "");   
+      }
   }
 
   $scope.isValidPost = function(){
@@ -211,7 +284,7 @@ function timeOffEvent(){
   return time;
 }
 
-function writeNewPost(uid, username, fullname, title, body, type, tags, image, color) {
+function writeNewPost(uid, username, fullname, title, body, type, tags, image, color, key) {
     //get time of post
     var date = new Date();
     var currMonth = months[date.getMonth() + 1];
@@ -228,19 +301,19 @@ function writeNewPost(uid, username, fullname, title, body, type, tags, image, c
       image: image,
       color: color,
       time: time,
-      key:"",
+      key:key,
       voteCount:0,
       votes:{},
       uid: uid
     }
 
-    // Get a key for a new Post.
-    var newPostKey = firebase.database().ref('posts').push().key;
-    postData.key = newPostKey;
+    // // Get a key for a new Post.
+    // var newPostKey = firebase.database().ref('posts').push().key;
+    // postData.key = newPostKey;
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
-    updates['/posts/' + newPostKey] = postData;
-    updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+    updates['/posts/' + postData.key] = postData;
+    updates['/user-posts/' + uid + '/' + postData.key] = postData;
     return firebase.database().ref().update(updates);
 }
