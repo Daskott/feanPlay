@@ -7,14 +7,14 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
   $scope.question = null;
   $scope.answer = null;
   $scope.selectedFileName = "";
-  
+
 
   //get reference to our posts in the database
   var databaseRef = firebase.database().ref().child('posts');
 
   //get post & update UI
   $scope.posts = $firebaseArray(databaseRef);
-  
+
   //NEEDS IMPROVEMENT, UPLOAD IMAGE SEPERATELY & SHOW USER PROGRESS
   //save post to realTime db
   $scope.addPost = function () {
@@ -23,7 +23,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
     var text = $scope.postBody;
     // Get a key for a new Post
     var newPostKey = firebase.database().ref('posts').push().key;
-    
+
     //give the illusion that its fast..lol
     //clear text of post
     $scope.postBody = null;
@@ -35,11 +35,11 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
 
     //upload img if any 1st
     $scope.handleFileUpload(file, newPostKey, function(error, imgUrl){
-      
+
       //****HANDLE ERROR********//
       if(file && error)
           console.log("there was an error uploading your image")
-      
+
       //if post is Text
       if($scope.postSelection === 0){
 
@@ -87,14 +87,15 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
 
   $scope.handleFileUpload = function(file, key, callback){
 
-    if(file){
-      
+    //FOR NOW, UPLOAD IMAGES ONLY FOR TEXT NOT FLASH CARDS
+    if(file && $scope.postSelection === 0){
+
       console.log("File: "+file.name);
       // Create a root reference
       var storageRef = firebase.storage().ref('posts_photos/'+$scope.currentUser.uid);
       //var key = storageRef.push().key;
 
-      // Create a reference to 'img.jpg' bt use post 'key' 
+      // Create a reference to 'img.jpg' bt use post 'key'
       // as name/id, so each upload is unique
       var photoRef = storageRef.child(key);
 
@@ -129,7 +130,7 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
       }
       else{
         //callback with no imageUrl & error
-        callback(null, "");   
+        callback(null, "");
       }
   }
 
