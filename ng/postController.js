@@ -218,6 +218,12 @@ app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsServi
 
   $scope.setPostType = function(postSelection){
     $scope.postSelection = postSelection;
+
+    //clear image selection if FLASH CARD TAB is selected
+    if($scope.postSelection == 1){
+      document.getElementById('input').value = '';
+      $scope.selectedFileName = "";
+    }
   }
 
   $scope.isSelectedPost = function(postSelection){
