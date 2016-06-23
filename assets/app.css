@@ -1,0 +1,304 @@
+/********************************
+* All Pages
+********************************/
+.marginTop {
+  margin: 10px;
+}
+.brand-name {
+  color: #1abc9c;
+}
+body {
+  background-color: #eee;
+}
+p {
+  word-wrap: break-word;
+}
+.wrap {
+  word-wrap: break-word;
+}
+.navbar {
+  padding-bottom: 0px;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.inline-block {
+  display: inline-block;
+}
+.nav {
+  font-family: 'Roboto Slab', serif;
+}
+.theme:visited,
+.theme:focus,
+.theme:link,
+.theme:hover,
+.theme {
+  color: #fff;
+  background-color: #1abc9c;
+}
+.theme:hover {
+  color: #fff;
+  background-color: #16a085;
+}
+.truncate {
+  max-height: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.unseen-notification {
+  background-color: #b2dfdb;
+}
+/***************************
+colors
+*************************/
+.grey {
+  color: #757575;
+}
+.back-grey {
+  background-color: #757575;
+}
+.blue {
+  color: #2980b9;
+}
+.yellow {
+  color: #f1c40f;
+}
+.red {
+  background-color: #c0392b;
+}
+.red-color {
+  color: #c0392b;
+}
+/********************************
+* Post Page
+********************************/
+.home-item {
+  color: #000;
+}
+.post-handle {
+  font-size: 0.8em;
+  color: #757575;
+  margin: 0px;
+}
+.post-fullname {
+  text-transform: capitalize;
+  margin: 0px;
+}
+span.avatar {
+  border-radius: 25px;
+  border: 0px solid #1abc9c;
+  padding: 10px;
+  margin-right: 4px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.post-container {
+  margin: auto;
+  max-width: 700px;
+  min-width: 300px;
+}
+.post-panel {
+  padding: 27px;
+  background-color: #fff;
+}
+.post-text-body {
+  font-family: 'Roboto Slab', serif;
+  box-shadow: 0 0px 0 rgba(0,0,0,0.03) inset;
+  outline: 0;
+}
+.text-panel {
+  padding-top: 16px;
+}
+.image-div {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.k-bit-panel {
+  margin-bottom: 8px;
+  padding-top: 16px;
+}
+.button-pane {
+  margin-top: 5px;
+}
+.k-bit-title {
+  font-family: 'Roboto Slab', serif;
+  color: #000;
+}
+.button-pane {
+  margin-top: 8px;
+  padding-right: 8px;
+}
+p.post-body {
+  font-family: 'Roboto Slab', serif;
+  margin: 0px;
+  margin-top: -8px;
+  word-wrap: break-word;
+  font-size: 1em;
+  color: #000;
+}
+.post-item {
+  margin-bottom: 5px;
+}
+.post-time {
+  font-size: 0.75em;
+  color: #757575;
+  padding: 0px;
+  margin: 0px;
+}
+#vote-div {
+  padding: 4px;
+  text-align: right;
+  font-family: 'Roboto Slab', serif;
+}
+#vote-div .post-vote-button {
+  cursor: pointer;
+  padding: 8px;
+}
+#vote-div .post-vote-button #vote-count {
+  color: #757575;
+}
+.selected {
+  background-color: #e0e0e0;
+  font-weight: bold;
+  color: #000;
+}
+.tags-div {
+  text-align: center;
+}
+.tags-div .tags {
+  margin-right: 2px;
+  background-color: #2980b9;
+}
+.flip {
+  min-width: 200px;
+  max-width: 300px;
+  padding: 8px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.flip .card {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+.flip .card .face {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  z-index: 2;
+  font-size: 1em;
+  text-align: center;
+}
+.flip .card .front {
+  font-family: 'Roboto Slab', serif;
+  text-shadow: 0.5px 0px #757575;
+  z-index: 1;
+  background: #1abc9c;
+  color: #fff;
+  cursor: pointer;
+}
+.flip .card .back {
+  font-family: 'Roboto Slab', serif;
+  background: #00f;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+}
+.flash-card {
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+.flash-title {
+  padding: 4px;
+  font-weight: 500;
+}
+.tap-text {
+  font-family: 'Roboto Slab', serif;
+}
+.k-ans-text,
+.k-quest-text {
+  font-size: 0.75em;
+  border-radius: 4px;
+  padding: 4px;
+  background-color: #00796b;
+}
+.k-ans-text {
+  color: #fff;
+}
+/********************************
+* Login Page
+*********************************/
+#register-title,
+#login-title {
+  color: #616161;
+  margin-bottom: 16px;
+}
+.register-pane,
+.login-pane {
+  padding: 20px 30px;
+  background: #fff;
+  border-radius: 2%;
+  margin: auto;
+  max-width: 400px;
+  min-width: 300px;
+  box-shadow: 0 -1px 0 #b6b6b6 inset;
+}
+.signup-pane {
+  margin-top: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.signup-pane .signup-button {
+  color: #1abc9c;
+}
+.forgot-link {
+  color: #1abc9c;
+}
+.forgot-button {
+  font-size: 0.85em;
+  color: #1abc9c;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+/*background: rgba(255,255,255,0.1);*/
+  font-family: 'Roboto Slab', serif;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 12px;
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+  border-radius: 5px;
+  box-shadow: 0 0px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 30px;
+}
+/**********************************
+File upload
+************************************/
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  background-color: #e0e0e0;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+}
