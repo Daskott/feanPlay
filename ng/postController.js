@@ -1,7 +1,7 @@
 
 var app = angular.module('app');
 
-app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, PostsService, UserService) {
+app.controller('PostsCtrl', function ($scope,  $firebaseArray, $http, UserService) {
 
   $scope.postSelection = 0;
   $scope.question = null;
