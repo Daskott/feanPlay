@@ -6,6 +6,7 @@ angular.module('app')
   $scope.notifications = [];
   $scope.notificationPosts = [];
   $scope.notificatonCount = 0;
+  var notificationRef; 
 
   // set selected nav if page refreshes
   (function initController() {
@@ -26,19 +27,19 @@ angular.module('app')
   });
 
   $scope.listenForNotification = function(){
-    var notificationRef = firebase.database().ref().child('users/' + $scope.currentUser.uid+'/notifications');
+    notificationRef = firebase.database().ref().child('users/' + $scope.currentUser.uid+'/notifications');
     notificationRef.on('child_added', function(data) {
         $scope.notifications.push(data.val());
         $scope.getNotificationPosts();
         $scope.setNotificationCount();
         $scope.seenNotification = false;
-        
+
     });
 
      notificationRef.on('child_removed', function(data) {
         //if a notification is seen/removed, delete all [FOR NOW!]
         $scope.notifications = [];
-        $scope.notificationPosts = [];        
+        $scope.notificationPosts = [];
     });
   }
 
@@ -68,16 +69,16 @@ angular.module('app')
       firebase.database().ref()
       .child('users/'+ $scope.currentUser.uid+'/notifications/'+$scope.notifications[i].key+'/seen')
       .set(true);
-      
+
       //update local var
       $scope.notifications[i].seen = true;
     }
-    
+
     //clear alert: ALL NOTIFICATIONS SEEN
     $scope.seenNotification = true;
     $scope.notificatonCount = 0;
   }
-  
+
   $scope.getNotificationPosts = function(){
     var userId = $scope.currentUser.uid;
 
@@ -92,7 +93,7 @@ angular.module('app')
         $scope.notificationPosts.unshift(post);
       });
     }
-    
+
   }
 
   $scope.logout = function () {
@@ -101,7 +102,7 @@ angular.module('app')
     $location.path('/');
     $scope.currentUser = null;
     $scope.nav = 0;
-    
+
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
       console.log("signed out");
@@ -112,7 +113,7 @@ angular.module('app')
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-    }else{
+    }else if(notificationRef){
       notificationRef.off();
     }
   })
