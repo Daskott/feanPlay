@@ -22,6 +22,6 @@ gulp.task('js', function(){
   .pipe(ngAnnotate())
   .pipe(uglify())
   //.pipe(sourcemaps.write())
-  .pipe(gulp.dest('assets'))
+  .pipe(gulp.dest('public/assets'))
   .pipe(livereload());
 });

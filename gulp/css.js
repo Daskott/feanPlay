@@ -14,7 +14,7 @@ gulp.task('css', function(){
 			browsers: ['last 2 versions'],
 			cascade: false
 		}))
-  .pipe(gulp.dest('assets'))
+  .pipe(gulp.dest('public/assets'))
   .pipe(livereload());
 });
 
@@ -26,6 +26,6 @@ gulp.task('vendor-css', function(){
 			browsers: ['last 2 versions'],
 			cascade: false
 		}))
-  .pipe(gulp.dest('assets'))
+  .pipe(gulp.dest('public/assets'))
   .pipe(livereload());
 });
