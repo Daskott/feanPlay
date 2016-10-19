@@ -1,6 +1,6 @@
 # feanPlay
 feanPlay is a simple twitter-like application that uses Firebase, Express, Angular and Node.
-You can see the live demo here: http://ec2-54-186-115-41.us-west-2.compute.amazonaws.com/#/
+You can see the live demo here: http://jabber.daskottlabs.com/#/
 
 ## Prerequisite Technologies
 ### Linux
